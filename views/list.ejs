@@ -1,0 +1,32 @@
+<%- include("header") -%>
+
+<div class="body-container">
+  <div class="create-container">
+    <%- include("noteForm") -%> 
+    <%- include("timerForm") -%>
+  </div>
+
+  <div class="notes-container">
+   <%- include("noteHeader") -%>
+    
+   <div class="notes-section note-items">
+    <% foundListItems.forEach(function(foundListItem){ %>
+      <div class="note">
+      <h3><%= foundListItem.title %></h3>
+      <p><%= foundListItem.content %></p>
+
+      <form action="/delete" method="POST">
+        <button type="submit" name="itemId" value="<%= foundListItem.id %>"><i class="fas fa-trash-alt"></i></button>
+        <input type="hidden" name="collection" value="list">
+    </form>
+    </div>
+    <% }) %>
+      
+
+  
+     
+    </div>
+  </div>
+</div>
+
+<%- include("footer") -%>

@@ -2,17 +2,23 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const _ = require("lodash")
-const ejs = require("ejs")
+const ejs = require("ejs");
+const { json } = require("body-parser");
+
+const timeData = [];
+
 const app = express();
 
 app.set('view engine', 'ejs');
-
 app.use(bodyParser.urlencoded({extended: true}));
-
 app.use(express.static("public"));
 
-
 mongoose.connect("mongodb://localhost:27017/timerAppDB", {useNewUrlParser: true, useUnifiedTopology: true});
+
+
+
+
+
 
 
 
@@ -26,8 +32,6 @@ const listItemSchema = new mongoose.Schema({
 })
 const ListItem = mongoose.model("ListItem", listItemSchema);
 
-
-
 const timerItemSchema = new mongoose.Schema({
   id: String,
   title: {type:String,
@@ -39,6 +43,8 @@ const TimerItem = mongoose.model("TimerItem", timerItemSchema);
 
 
 app.get("/", function(req, res){
+
+
   ListItem.find({}, function(err, foundListItems){
     if(err){
       console.log(err)
@@ -46,7 +52,6 @@ app.get("/", function(req, res){
       res.render("list", {foundListItems:foundListItems})
     }
   })
-  
 })
 
 app.get("/list", function(req, res){
@@ -55,14 +60,37 @@ app.get("/list", function(req, res){
 
 
 app.get("/timer", function(req, res){
+  
+  
   TimerItem.find({}, function(err, foundTimerItems){
     if(err){
       console.log(err)
     }else{
-      res.render("timer", {foundTimerItems:foundTimerItems})
+      
+      
+      res.render("timer", {foundTimerItems: (foundTimerItems)}) 
+      //   if(timeData.length === 0){
+         
+      //       foundTimerItems.forEach(function(foundTimerItem){
+      //       timeData.push(foundTimerItem)
+      //       console.log("add ALL ITEMS")
+      //       })
+      //   }
+      //   else if(timeData.length !== foundTimerItems.length){
+      //     console.log(timeData.length)
+      //     console.log(foundTimerItems.length)
+      //     timeData.push(_.last(foundTimerItems))
+      //     console.log(foundTimerItems.length)
+      //     console.log("add the last item") 
+      // }
     }
   })
 })
+
+// app.get('/api', function(req, res){
+//   res.json(timeData); 
+// });
+
 
 
 app.post("/", function(req, res){
@@ -79,7 +107,7 @@ app.post("/", function(req, res){
 
     list.save();
     res.redirect("/")
-    console.log(list.id)
+    
 
   } else if(formType === "timerForm"){
     const timer = new TimerItem({
@@ -90,7 +118,8 @@ app.post("/", function(req, res){
 
     timer.save();
     res.redirect("/timer")
-    console.log(timer.id)
+    
+    
   } 
 })
 
@@ -117,6 +146,13 @@ app.post("/delete", function(req, res){
     })
   }
 })
+
+
+
+
+
+
+
 
 
 

@@ -5,7 +5,7 @@ const _ = require("lodash")
 const ejs = require("ejs");
 const { json } = require("body-parser");
 
-const timeData = [];
+let timeData = [];
 
 const app = express();
 
@@ -69,20 +69,29 @@ app.get("/timer", function(req, res){
       
       
       res.render("timer", {foundTimerItems: (foundTimerItems)}) 
-      //   if(timeData.length === 0){
+        // if(foundTimerItems !== 0  && timeData.length === 0){
          
-      //       foundTimerItems.forEach(function(foundTimerItem){
-      //       timeData.push(foundTimerItem)
-      //       console.log("add ALL ITEMS")
-      //       })
-      //   }
-      //   else if(timeData.length !== foundTimerItems.length){
-      //     console.log(timeData.length)
-      //     console.log(foundTimerItems.length)
-      //     timeData.push(_.last(foundTimerItems))
-      //     console.log(foundTimerItems.length)
-      //     console.log("add the last item") 
-      // }
+        //     foundTimerItems.forEach(function(foundTimerItem){
+        //     timeData.push(foundTimerItem)
+            
+        //     })
+            
+        // }if(timeData.length === 0 && foundTimerItems.length === 0){
+          
+
+        // }else if(timeData.length < foundTimerItems.length){
+        
+        //   timeData.push(_.last(foundTimerItems))
+          
+        //   console.log("add the last item") 
+        // }else if(timeData.length > foundTimerItems.length){
+        //   timeData = []
+        //   foundTimerItems.forEach(function(foundTimerItem){
+        //   timeData.push(foundTimerItem)
+          
+        //   })
+        //   console.log("deleted one item")
+        // }
     }
   })
 })
@@ -134,6 +143,11 @@ app.post("/delete", function(req, res){
         console.log(err)
       }else{
         res.redirect("/timer")
+        timeData.filter(function(item){
+          return item !== itemId
+          
+        })
+        console.log(timeData)
       }
     })
   }else if(collectionDB ==="list"){

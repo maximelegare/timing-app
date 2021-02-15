@@ -3,7 +3,13 @@
     <div class="form-container">
         <form action="/" method="POST">
           <input name="title" type="text" placeholder="What?"/>
-          <input name="time" type="text" placeholder="For how long?"/>
+          
+          <div class="form-time">
+            <input name="hours" type="text" placeholder="hours?" class="time-input"/>
+            <input name="minutes" type="text" placeholder="minutes?" class="time-input"maxlength="2"/>
+            <input name="seconds" type="text" placeholder="seconds?" class="time-input" maxlength="2"/>
+          </div>
+          
           <button type="submit" value="timerForm" name="formType" id="timerButton"><i class="fas fa-plus"></i></button>
         </form>
     </div>

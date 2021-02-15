@@ -14,19 +14,25 @@
     <%- include("noteHeader") -%>
     <div id="noteSection" class="notes-section"> 
        
-      <!-- <% //foundTimerItems.forEach(function(foundTimerItem){ %>
-        <div class="timer-items">
+      
+        <!-- <div class="timer-items">
           <div id="timerItemContent" class="timer-items-content">
             <h3><%=// foundTimerItem.title%></h3>
           </div>
           <form action="/delete" method="POST">
-            <button type="submit" name="itemId" value="<%=// foundTimerItem.id %>">
+            <button type="submit" name="itemId" value="<%=// foundTimerItem.id %>" class="left">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+            <input type="hidden" name="collection" value="timer"/>
+          </form>
+          <form action="/status" method="POST">
+            <button type="submit" name="itemId" value="<%=// foundTimerItem.id %>" class="right">
               <i class="fas fa-trash-alt"></i>
             </button>
             <input type="hidden" name="collection" value="timer" />
           </form>
-        </div>
-        <%// }); %> -->
+        </div> -->
+        
       
     </div>
   </div>

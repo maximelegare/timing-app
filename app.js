@@ -37,7 +37,12 @@ const timerItemSchema = new mongoose.Schema({
   title: {type:String,
           required:true
   },
-  time: Number
+  time:{
+    hours:Number,
+    minutes:Number,
+    seconds:Number
+  } ,
+  status: Boolean
 })
 const TimerItem = mongoose.model("TimerItem", timerItemSchema);
 
@@ -115,6 +120,7 @@ app.post("/", function(req, res){
     })
 
     list.save();
+    
     res.redirect("/")
     
 
@@ -122,13 +128,17 @@ app.post("/", function(req, res){
     const timer = new TimerItem({
       id: mongoose.Types.ObjectId(),
       title: req.body.title,
-      time: req.body.time
+      time:{
+        hours:req.body.hours,
+        minutes:req.body.minutes,
+        seconds:req.body.seconds
+      } ,
+      status: false
     })
 
     timer.save();
+    console.log(timer)
     res.redirect("/timer")
-    
-    
   } 
 })
 
@@ -162,6 +172,20 @@ app.post("/delete", function(req, res){
 })
 
 
+app.post("/start", function(req, res){
+  console.log("clicked from DB")
+  const itemId = req.body.itemId
+  // const collectionDB = req.body.collection
+  
+   TimerItem.updateOne({id:itemId}, {status:true}, function(err){
+      if(err){
+        console.log(err)
+      }else{
+        res.redirect("/timer")    
+      }
+    })
+  
+})
 
 
 

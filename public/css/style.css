@@ -44,7 +44,7 @@ header{
 }
 
 
-.fa-stopwatch{
+i{
     font-size: 1.7rem;
 }
 /* body Section */
@@ -94,6 +94,19 @@ form input, form textarea{
     color: white;
     box-shadow: 0px 2px 3px rgba(145, 145, 145, 0.404);    
 }
+
+
+.form-time{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+}
+
+.time-input{
+    width: 30%;
+}
+
 
 /* body */
 .notes-header{
@@ -190,9 +203,9 @@ a{
     width: 400px;
     height: 100px;
     background-color: rgb(240, 239, 232);
-    border-radius: 7px 4px 7px 7px ;
+    border-radius: 7px 7px 0px 7px ;
     box-shadow: 0px 4px 6px rgba(126, 126, 126, 0.404); 
-
+    
 }
 .timer-items-content{
     height: 100%;
@@ -212,28 +225,38 @@ a{
     cursor: pointer;
     font-weight: 400;
     font-size: 1.2rem;
-    padding: 6px 10px;
-    border-radius: 50%;
+    padding: 5px 10px;
+    border-radius: 0 0 7px 7px;
     text-align: center;
-    margin: 0 auto;
+    margin: 0 -20px;
     position: absolute;
     color: white;
     box-shadow: 0px 2px 3px rgba(145, 145, 145, 0.404);   
 }
 
 
-.timer-items button{
-   
-    margin-left: 170px;
-    margin-top: -17px;
-     
+
+
+
+.timer-items button.timer-delete-button{
+    margin-left: 120px;
+    margin-top: -17px;   
 }
 
+.timer-items button.timer-start-button{
+    margin-left: 261px;
+    margin-top: 0;  
+    border-radius: 0 0 7px 7px; 
+    padding: 5px 6px;
+}
+
+.timer-items button.timer-start-button p{ 
+   color:white;
+   font-size: 1.1rem;
+}
 .note-items button{
-   
     margin-left: 110px;
-    margin-top: 98px;
-    
+    margin-top: 98px;   
 }
 
 

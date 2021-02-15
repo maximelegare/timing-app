@@ -175,6 +175,7 @@ app.post("/delete", function(req, res){
 app.post("/start", function(req, res){
   console.log("clicked from DB")
   const itemId = req.body.itemId
+  console.log(itemId)
   // const collectionDB = req.body.collection
   
    TimerItem.updateOne({id:itemId}, {status:true}, function(err){

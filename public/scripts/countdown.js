@@ -50,17 +50,16 @@ timerData.forEach(function(timerElement){
     buttonStart.value = timerElement.id
     buttonStart.className = "timer-start-button"
     
-    buttonStart.addEventListener("click", function(e){
-        
+    buttonStart.addEventListener("click", function(){
         startCountdown(timerElement.time)
     });
     
     $(formContainerStatus).submit(function(e){
         e.preventDefault();
-        var mm = {itemId:timerElement.id};
+        var data = {itemId:timerElement.id};
         $.ajax({
             url:"/start",
-            data:mm,
+            data:data,
             type:"POST",
             success:function(data){
     
@@ -105,52 +104,42 @@ timerData.forEach(function(timerElement){
        
     document.querySelector("#noteSection").appendChild(timerItem)
 
-    
     function startCountdown(time){
-       
-        console.log("timerStarted");
-        console.log("clicked");
-        var dayNow = new Date().getDay()
 
-        console.log(dayNow);
-        var yearNow = new Date().getDay()
-        console.log(yearNow);
-        
-        
-        
-        // var countDownDate = new Date("'" + dayNow +", " + yearNow + " " + timeNow + time ).getTime();
+        var countDownDate = new Date("Sep 25, 2025 15:00:00").getTime();
         
         // Update the count down every 1 second
-            var x 
-            clearInterval(x)
-            x = setTimeout(interval(), 1000);
-
-        }
-        function interval(time){
-            
-            var countDownDate = new Date("Sep 25, 2025 17:10:00"  ).getTime();
-            var timeNow = new Date().getTime();
+        var x = setInterval(function() {
+        
             // Get todays date and time
-
-            console.log("we're in!!!");
+            var now = new Date().getTime();
+            
             // Find the distance between now an the count down date
-            var distance = countDownDate - timeNow;
-
+            var distance = countDownDate - now;
+            
             // Time calculations for days, hours, minutes and seconds
             var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
             var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
+            
             // Output the result in an element with id="demo"
-            itemTime.innerText = hours + "h "
-            + minutes + "m " + seconds + "s ";
-
+            itemTime.innerText = hours + "h " + minutes + "m " + seconds + "s ";
+            
             // If the count down is over, write some text 
             if (distance < 0) {
-                clearInterval(x)
-                document.getElementById("timer").innerHTML = "EXPIRED";
+                clearInterval(x);
+                itemTime.innerText = "EXPIRED";
             }
+        }, 1000);
         }
+  
+
+
+
+
+
+
+
 
 } 
 );   
@@ -194,7 +183,41 @@ timerData.forEach(function(timerElement){
 
 
 
+  // function startCountdown(time){
+       
+    //     // console.log("timerStarted");
+    //     // console.log("clicked");
+    //     // var dayNow = new Date().getDay()
+    //     var countDownDate = new Date("Sep 25, 2025 17:10:00"  ).getTime();
+    //     // console.log(dayNow);
+    //     // var yearNow = new Date().getDay()
+    //     // console.log(yearNow);
+    //     var x = setTimeout(function(){
+           
+    //         var timeNow = new Date().getTime();
+    //         // Get todays date and time
 
+    //         console.log("we're in!!!");
+    //         // Find the distance between now an the count down date
+    //         var distance = countDownDate - timeNow;
+
+    //         // Time calculations for days, hours, minutes and seconds
+    //         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    //         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    //         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    //         // Output the result in an element with id="demo"
+    //         itemTime.innerText = hours + "h "
+    //         + minutes + "m " + seconds + "s ";
+
+    //         // If the count down is over, write some text 
+    //         if (distance < 0) {
+    //             clearInterval(x)
+    //             document.getElementById("timer").innerHTML = "EXPIRED";
+    //         }
+    //         }, 1000);
+
+    //   }
 
 
 

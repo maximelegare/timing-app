@@ -2,10 +2,12 @@ let timerData = JSON.parse(document.querySelector("#timerD").innerText);
 
 
 timerData.forEach(function(timerElement){
-    let hour = timerElement.time.hours
-    let min = timerElement.time.minutes
-    let sec = timerElement.time.seconds
-
+    let hours = timerElement.time.hours
+    let minutes = timerElement.time.minutes
+    let seconds = timerElement.time.seconds
+    
+    
+    
 
     let timerItem = document.createElement("div");
     let timerItemContent = document.createElement("div")
@@ -24,7 +26,11 @@ timerData.forEach(function(timerElement){
     let formContainerStatus = document.createElement("form")
     let buttonStart = document.createElement("button")
 
-    
+    if(timerElement.status){
+        startingTimeDB = Number(timerElement.startingTime)
+        startCountdown(startingTimeDB)
+        console.log(startingTimeDB + "when refresh")
+    }
     
     timerItem.className = "timer-items";
     timerItemContent.className = "timer-items-content";
@@ -50,22 +56,37 @@ timerData.forEach(function(timerElement){
     buttonStart.value = timerElement.id
     buttonStart.className = "timer-start-button"
     
-    buttonStart.addEventListener("click", function(){
-        startCountdown(timerElement.time)
-    });
+    if(!timerElement.status){
+        
+        buttonStart.addEventListener("click", function(){
+            let startingTime = new Date().getTime();
+            
+            //let startingTimeDB = timerElement.startingTime
+            
+            startCountdown(startingTime)
+            
+            
+            
+        
+
+            $(formContainerStatus).submit(function(e){
+                e.preventDefault();
+                
+                var data = {itemId:timerElement.id, startingTime:startingTime};
+                $.ajax({
+                    url:"/start",
+                    data:data,
+                    type:"POST",
+                    success:function(data){
+            
+                    }
+                });
+            });
+        })
+ 
+    };
     
-    $(formContainerStatus).submit(function(e){
-        e.preventDefault();
-        var data = {itemId:timerElement.id};
-        $.ajax({
-            url:"/start",
-            data:data,
-            type:"POST",
-            success:function(data){
-    
-            }
-        });
-    });
+
     
     
     
@@ -77,14 +98,17 @@ timerData.forEach(function(timerElement){
     
  
 
-
-
     itemTitle.innerText = timerElement.title
+
+  
     
     itemTime.id = "timer"
     buttonStartText.innerText = "Start Timer"
-    itemTime.innerText = hour + ":" + min + ":" + sec
-
+    
+    if(!timerElement.status){
+        itemTime.innerText = (hours === null ? "0" : hours) + "h " + (minutes < 10 ? "0" : "") + (minutes === null ? "0" : minutes) + "m " + (seconds < 10 ? "0" : "") + (seconds === null ? "0" : seconds) + "s "
+    }
+    
 
 
     timerItem.appendChild(timerItemContent)
@@ -104,18 +128,30 @@ timerData.forEach(function(timerElement){
        
     document.querySelector("#noteSection").appendChild(timerItem)
 
-    function startCountdown(time){
 
-        var countDownDate = new Date("Sep 25, 2025 15:00:00").getTime();
+    
+   
+
+    function startCountdown(time){
         
+            // if there's a cookie with the name myClock, use that value as the deadline
+        var now = time   
+        let deadline = timer(now, hours, minutes, seconds)
+
+        function timer(date, hours, minutes, seconds) {
+            return new Date(date + hours*60*60*1000 + minutes*60*1000 + seconds*1000);
+        }
+    
+
+        console.log(deadline)
         // Update the count down every 1 second
-        var x = setInterval(function() {
-        
+        var x = setInterval(function(time) {
+            
             // Get todays date and time
-            var now = new Date().getTime();
+            var timeNow = new Date().getTime()
             
             // Find the distance between now an the count down date
-            var distance = countDownDate - now;
+            var distance = deadline - timeNow;
             
             // Time calculations for days, hours, minutes and seconds
             var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -123,45 +159,48 @@ timerData.forEach(function(timerElement){
             var seconds = Math.floor((distance % (1000 * 60)) / 1000);
             
             // Output the result in an element with id="demo"
-            itemTime.innerText = hours + "h " + minutes + "m " + seconds + "s ";
-            
+        
+            itemTime.innerText = hours + "h " + (minutes < 10 ? "0" : "") + minutes + "m " + (seconds < 10 ? "0" : "")+ seconds + "s ";
+
+
             // If the count down is over, write some text 
             if (distance < 0) {
                 clearInterval(x);
                 itemTime.innerText = "EXPIRED";
             }
         }, 1000);
-        }
-  
+    }
+});   
 
 
 
 
-
-
-
-
-} 
-);   
-
-
-
-
-
-// console.log("here")
-
-// for (;;){
-// timerData.forEach(function(timerElement){
-//     if(timerElement.status){
-//         startCountdown(timerElement.time, itemTime)  
-//         console.log(timerElement.status)
-//     }   
-// })
-// }
 
    
 
 
+// function setCookie(cname,cvalue,exdays) {
+//     var d = new Date();
+//     d.setTime(d.getTime() + (exdays*24*60*60*1000));
+//     var expires = "expires=" + d.toGMTString();
+//     document.cookie = cname+"="+cvalue+"; "+expires;
+// }
+// function getCookie(cname) {
+//     var name = cname + "=";
+//     var ca = document.cookie.split(';');
+//     for(var i=0; i<ca.length; i++) {
+//         var c = ca[i];
+//         while (c.charAt(0)==' ') c = c.substring(1);
+//         if (c.indexOf(name) == 0) {
+//             return c.substring(name.length, c.length);
+//         }
+//     }
+//     return "";
+// }
+// window.onload = function startingTimer(){
+//     //countdown(prompt("Enter how many minutes you want to count down:"),true);
+//       countdown(2,true);
+// }
 
 
 
@@ -174,64 +213,25 @@ timerData.forEach(function(timerElement){
 
 
 
+// document.cookie.split(";").map(function(cookie){
+//     cookie.split("=").reduce((accumulator, [key, value]) => 
+//     ({...accumulator, [key.trim()]: decodeURIComponent(value)}))
+// })
+// let cookie = document.cookie
 
 
+// if(cookie.timerCookie === "timerCookie"){
+//    deadline = cookie.timerCookie
+   
+// }else{
+//     var hours = time.hours;
+//     var minutes = time.minutes;
+//     var seconds = time.seconds;
+//     var currentTime = Date.parse(new Date());
+//     var deadline = new Date(currentTime + hours*60*60*1000 +  minutes*60*1000 + seconds*1000);
 
-
-
-
-
-
-
-  // function startCountdown(time){
-       
-    //     // console.log("timerStarted");
-    //     // console.log("clicked");
-    //     // var dayNow = new Date().getDay()
-    //     var countDownDate = new Date("Sep 25, 2025 17:10:00"  ).getTime();
-    //     // console.log(dayNow);
-    //     // var yearNow = new Date().getDay()
-    //     // console.log(yearNow);
-    //     var x = setTimeout(function(){
-           
-    //         var timeNow = new Date().getTime();
-    //         // Get todays date and time
-
-    //         console.log("we're in!!!");
-    //         // Find the distance between now an the count down date
-    //         var distance = countDownDate - timeNow;
-
-    //         // Time calculations for days, hours, minutes and seconds
-    //         var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-    //         var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-    //         var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-    //         // Output the result in an element with id="demo"
-    //         itemTime.innerText = hours + "h "
-    //         + minutes + "m " + seconds + "s ";
-
-    //         // If the count down is over, write some text 
-    //         if (distance < 0) {
-    //             clearInterval(x)
-    //             document.getElementById("timer").innerHTML = "EXPIRED";
-    //         }
-    //         }, 1000);
-
-    //   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+//     document.cookie= JSON.stringify("timercookie=" + deadline)
+// }
 
 
 

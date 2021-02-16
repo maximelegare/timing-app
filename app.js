@@ -40,9 +40,10 @@ const timerItemSchema = new mongoose.Schema({
   time:{
     hours:Number,
     minutes:Number,
-    seconds:Number
-  } ,
-  status: Boolean
+    seconds:Number,
+  },
+  status: Boolean,
+  startingTime: String
 })
 const TimerItem = mongoose.model("TimerItem", timerItemSchema);
 
@@ -131,7 +132,8 @@ app.post("/", function(req, res){
       time:{
         hours:req.body.hours,
         minutes:req.body.minutes,
-        seconds:req.body.seconds
+        seconds:req.body.seconds,
+        startingTime: ""
       } ,
       status: false
     })
@@ -175,10 +177,12 @@ app.post("/delete", function(req, res){
 app.post("/start", function(req, res){
   console.log("clicked from DB")
   const itemId = req.body.itemId
+  var startingTime = req.body.startingTime
+  console.log(startingTime)
   console.log(itemId)
   // const collectionDB = req.body.collection
   
-   TimerItem.updateOne({id:itemId}, {status:true}, function(err){
+   TimerItem.updateOne({id:itemId}, {status:true, startingTime:startingTime}, function(err){
       if(err){
         console.log(err)
       }else{

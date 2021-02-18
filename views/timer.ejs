@@ -11,13 +11,18 @@
   </div>
 
   <div class="notes-container">
-    <%- include("noteHeader") -%>
+    <div class="notes-header">
+      <a href="timer" class="bold">Timer</a>
+      <a href="list" class="dim">List</a>
+      <div class="line-header line-header--left"></div>
+    </div>
     <div id="noteSection" class="notes-section"> 
        
       
         <!-- <div class="timer-items">
           <div id="timerItemContent" class="timer-items-content">
-            <h3><%=// foundTimerItem.title%></h3>
+            <h3>title</h3>
+            <h3>0h 10m 00s</h3>
           </div>
           <form action="/delete" method="POST">
             <button type="submit" name="itemId" value="<%=// foundTimerItem.id %>" class="left">

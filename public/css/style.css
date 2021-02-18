@@ -8,6 +8,16 @@ body{
     background-color: rgb(240, 239, 232);
 }
 
+.body-container{
+    display: flex; 
+    width: 80%;
+    margin: 50px auto 50px auto; 
+    justify-content: space-between;      
+}
+
+/* ////////////////////////
+GENERAL FONT SPECIFICATIONS
+//////////////////////// */
 h1{
     font-family: 'Comfortaa', cursive; 
     font-weight: 500;
@@ -15,7 +25,6 @@ h1{
     font-size: 2.5rem; 
     margin-left: 35px;
 }
-
 
 h2{
     color: rgb(83, 70, 70);
@@ -26,14 +35,125 @@ h2{
 }
 
 h3{
-    font-size: 1.3rem;
-    font-weight: 500;
     font-family: 'Open Sans', sans-serif;
-    color:  rgb(49, 49, 44);  
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: rgb(129, 127, 127);
+}
+
+
+h4{
+    font-size: 1.3rem;
+    font-weight: 400;
+    font-family: 'Open Sans', sans-serif;
+    color:  rgb(160, 160, 147); 
+    line-height: 1.3;    
     
 }
 
-/* header section */
+i{
+    font-size: 1.7rem;
+    transition: all 200ms ease;
+}
+
+
+a{
+    color: rgb(83, 70, 70);
+    font-family: 'Comfortaa', cursive;
+    font-weight: 500;
+    font-size: 1.3rem;
+    text-align: center;
+    
+    transition: all 200ms ease;
+    
+}
+
+
+a:hover{
+    color:rgb(114, 218, 204);
+}
+
+
+
+/* /////////////////////////
+SPECIFIC FONT SPECIFICATIONS
+///////////////////////// */
+
+
+/* individual note item */
+
+
+
+.note h3{
+    padding-top: 5px;
+    width: 240px;  
+    margin: 40px auto 0 auto;
+    line-height: 1.2;
+    text-align: center;
+     
+}
+
+.note h4{
+    width: 240px;
+    margin: 7px auto 0 auto;
+    text-align: center;
+} 
+
+.timer-items button.timer-start-button p{ 
+    color:white;
+    font-size: 1.1rem;
+}
+/* time in the timer item */
+
+/* positionning and size of the icon in delete button in timer */
+.fa-trash-alt{
+    font-size: 1.3rem;
+}
+
+/* individuals timer item */
+.timer-items p, .timer-items h3{
+    margin: 0 10px;
+    
+}
+
+.notes-header a{
+    margin: 30px 20px 10px 20px;
+}
+
+.note a{
+    display: block;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+    width: 50px;
+    margin: 15px auto 0 auto;
+    color: rgba(83, 70, 70, 0.651); 
+    transition: all 200ms ease;   
+}
+
+.note a:hover{
+    color:rgb(114, 218, 204);
+}
+
+
+/* note header dim and bold for selected pages */
+.bold{
+    font-weight: 700;
+}
+
+.dim{
+    color: rgba(83, 70, 70, 0.705);;
+}
+
+
+/* /////////////////////////
+---------SECTIONS-----------
+///////////////////////// */
+
+/* HEADER SECTION */
+.logo{
+    width: 100%;
+}
+
 header{
     width: 100%;
     height: 75px;
@@ -43,16 +163,7 @@ header{
     box-shadow: 0px 3px 3px rgba(145, 145, 145, 0.562);   
 }
 
-
-i{
-    font-size: 1.7rem;
-}
-/* body Section */
-
-
-
-
-/* form section */
+/* FORM SECTION */
 .form-container{
     display: flex;
     justify-content: center;
@@ -60,9 +171,9 @@ i{
 }
 
 form{
-    width: 400px;
-    
+    width: 400px; 
 }
+
 form input, form textarea{
     width: 100%;
     padding: 15px 10px;
@@ -76,63 +187,17 @@ form input, form textarea{
     resize: none;
 }
 
-.form-container button{
-    background-color: rgb(114, 218, 204);
-    border: none;
-    outline: none;
-    cursor: pointer;
-    font-family: 'Open Sans', sans-serif;
-    font-weight: 400;
-    font-size: 1.5rem;
-    padding: 8px 16px;
-    border-radius: 50%;
-    text-align: center;
-    margin: 0 auto;
-    position: absolute;
-    margin-left: -20px;
-    margin-top: -33px;
-    color: white;
-    box-shadow: 0px 2px 3px rgba(145, 145, 145, 0.404);    
-}
-
-
+/* form to select an amount of time */
 .form-time{
     display: flex;
     width: 100%;
     justify-content: space-between;
-
 }
 
+/* each form for selecting the amount of time */
 .time-input{
     width: 30%;
 }
-
-
-/* body */
-.notes-header{
-    display: flex;
-    justify-content: center;
-}
-
-a{
-    color: rgb(83, 70, 70);
-    font-family: 'Comfortaa', cursive;
-    font-weight: 500;
-    font-size: 1.3rem;
-    text-align: center;
-    margin: 30px 20px 10px 20px;
-}
-.container{
-    
-}
-.body-container{
-    display: flex; 
-    width: 80%;
-    margin: 50px auto 50px auto; 
-    justify-content: space-between;   
-    
-}
-
 
 .create-notes-container{
     margin-top: 30px;
@@ -142,7 +207,35 @@ a{
     margin-top: 50px;
 }
 
-/* notes */
+
+/* NOTES SECTION */
+/* NOTE HEADER */
+/* buttons to chose timer page/list page */
+.notes-header{
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.notes-header{
+    display: flex;
+}
+/* line under the selected page */
+.line-header{
+    position: absolute;
+    width: 30px;
+    height: 4px;
+    background-color:rgb(114, 218, 204);
+    border-radius: 10px;
+    margin-top: 60px;
+}
+
+.line-header--left{
+    margin-left: -80px;
+}
+.line-header--right{
+    margin-right: -103px;
+}
 
 .notes-container{
     width: 70%;
@@ -152,8 +245,9 @@ a{
     background-color: rgb(255, 255, 255);
     box-shadow: 0px 3px 3px rgba(145, 145, 145, 0.404); 
 }
+
+/* wrap each elements inside note section AND timer section. The same class is applied */
 .notes-section{
-  
     width: 100%;
     display: flex;
     flex-wrap: wrap;
@@ -161,63 +255,75 @@ a{
     margin-bottom: 60px;
 }
 
-.notes-header{
-    display: flex;
-}
-
+/* each individual note */
 .note{
     margin: 30px 10px;
-    width:250px;
-    height: 250px;
+    width:300px;
+    height: 300px;
     background-image: url(/img/post-it.svg);
     background-repeat: none;
     background-size: cover;
 }
-.note h3{
-    width: 70%;
-    margin: 40px auto 0 auto;
-    line-height: 1.2;
-    text-align: center;
-   
-}
-.note p{
-    margin: 30px auto 0 auto;
 
-    width: 87%;
-    
-    font-size: 1.1rem;
-    font-weight: 400;
-    font-family: 'Open Sans', sans-serif;
-    text-align: center;
-    color: rgb(129, 127, 127);
 
-}
-
-.red{
-    color: red;
-}
-
+/* each individual timer   */
 .timer-items{
-    margin: 30px 10px;
+    margin: 40px 10px;
     border-left: solid 20px #e2e1dc ;
     width: 400px;
     height: 100px;
     background-color: rgb(240, 239, 232);
-    border-radius: 7px 7px 0px 7px ;
-    box-shadow: 0px 4px 6px rgba(126, 126, 126, 0.404); 
-    
+    border-radius: 5px 5px 0px 5px ;
+    box-shadow: 0px 4px 6px rgba(126, 126, 126, 0.404);   
 }
+
 .timer-items-content{
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
-.timer-items p, .timer-items h3{
-    margin: 0 10px;
-    color: rgb(129, 127, 127);
-
+/* dimensions of the field where we see the time */
+.time-showing{
+ width: 140px;
+ text-align: right;
 }
+
+.time-title{
+    margin-left: 10px;
+    text-align: left;
+    width: 200px; 
+}
+
+
+/* /////////////////////////
+---------BUTTONS-----------
+///////////////////////// */
+
+
+.form-container button{
+    background-color: rgb(114, 218, 204);
+    box-shadow: 0px 2px 3px rgba(145, 145, 145, 0.404);    
+    color: white;
+    text-align: center;
+    font-family: 'Open Sans', sans-serif;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    font-weight: 400;
+    font-size: 1.5rem;
+    border-radius: 50%;
+    padding: 10px 16px;
+    position: absolute;
+    margin-top: 35px;
+    border: solid 3px white;
+    /* change this position in the media query
+    to make the button fallow the size of the form */
+    margin-left:375px;
+}
+
+
+
 .notes-section button{
     background-color: #e2e1dc;
     border: none;
@@ -225,63 +331,183 @@ a{
     cursor: pointer;
     font-weight: 400;
     font-size: 1.2rem;
-    padding: 5px 10px;
-    border-radius: 0 0 7px 7px;
+    padding: 9px 13px;
+    border-radius: 50%;
     text-align: center;
     margin: 0 -20px;
-    position: absolute;
+    
     color: white;
-    box-shadow: 0px 2px 3px rgba(145, 145, 145, 0.404);   
+    box-shadow: 0px 2px 3px rgba(145, 145, 145, 0.404); 
+    transition: all 200ms ease;  
+    position: absolute;
+}
+form .notes-section{
+    position: absolute;
 }
 
-
-
-
-
-.timer-items button.timer-delete-button{
-    margin-left: 120px;
-    margin-top: -17px;   
+/* delete button specific to the timer items */
+button.delete-button{
+    border: solid 2px white;
 }
 
+/* hover delete button */
+
+button.delete-button:hover{
+    background-color: #bd0a0a;
+}
+
+/* /////////////////////////s
+----BUTTONS POSITIONNING---- 
+///////////////////////// */
+
+
+
+/* start button specific to the timer items */
 .timer-items button.timer-start-button{
     margin-left: 261px;
     margin-top: 0;  
     border-radius: 0 0 7px 7px; 
-    padding: 5px 6px;
+    padding: 6px 6px;
+    background-color: rgb(114, 218, 204);
 }
 
-.timer-items button.timer-start-button p{ 
-   color:white;
-   font-size: 1.1rem;
-}
-.note-items button{
-    margin-left: 110px;
-    margin-top: 98px;   
+button.delete-button.timer{
+    margin-left: 350px;
+    margin-top: -25px;
 }
 
+button.delete-button.list{
+    margin-left: 245px;
+    margin-top: -16px;
+}
+
+
+
+/* /////////////////////////
+--------DYNAMIC CLASS------- 
+///////////////////////// */
+
+
+/* when the timer is finished, certain styles are applied, it's managed inside countown.js */
 
 
 
 
 
+/* /////////////////////////
+---------MEDIA QUERRY------- 
+///////////////////////// */
 
 
+@media(max-width:1120px){
+    .body-container{
+        width: 95%;
+    }
 
+    form{
+        width:350px;
+    }
 
+    .form-container button{
+        margin-left:325px;   
+    }
+}
 
+@media(max-width:900px){
+    .body-container{
+        display: block;
+        width: 70%;
+        display: flex;
+        flex-direction: column-reverse;
+    }    
 
+    form{
+       
+       width: 100%;
 
+    }
 
+    .form-container button{
+        margin-left:67%;   
+    }
 
+    .create-container{
+        margin-top: 50px;
+    }
 
+    .notes-container{
+        width: 100%;
+        margin: 0 auto;
+        
+    }
 
+}
 
+@media(max-width:700px){
 
+    .timer-items{
+        width: 300px;
+        height: 200px;
+    }
 
+    .time-title{
+        margin-top: 20px;
+        width: 250px;
+        padding-bottom: -40px;
+    }
 
+    .timer-items-content{
+        flex-direction:column-reverse ;
+        justify-content: flex-end;
+        
+        
+        
+    }
+    .timer-items-content h3{
+        text-align: center;
+        margin-top: 10px;
+        
+    }
 
+    .timer-items button.timer-start-button{
+        margin-left: 162px;
+    }
 
+    button.delete-button.timer{
+        margin-left: 250px;
+        margin-top: -25px;
+    }
+    
+}
 
+@media(max-width:500px){
+    
+    h1{
+     margin-left: 0;  
+     text-align:center 
+    }
+
+    .body-container{
+        width: 95%;
+    }
+
+    .form-container button{
+        margin-top:-70px;  
+        margin-left:    42%; 
+        position: relative;
+        margin-top: 3px;
+        margin-bottom: 30px;
+    }
+
+    .create-notes-container{
+        margin-top: 0px;
+    }
+    
+    .create-timer-container{
+        margin-top: 30px;
+    }
+
+}
 
 
 

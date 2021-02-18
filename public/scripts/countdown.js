@@ -1,6 +1,9 @@
 let timerData = JSON.parse(document.querySelector("#timerD").innerText);
 
 
+
+
+
 timerData.forEach(function(timerElement){
     let hours = timerElement.time.hours
     let minutes = timerElement.time.minutes
@@ -14,7 +17,7 @@ timerData.forEach(function(timerElement){
     let icon = document.createElement("i")
     let buttonStartText = document.createElement("p")
    
-    let itemTitle = document.createElement("h3")
+    let itemTitle = document.createElement("h4")
     let itemTime = document.createElement("h3")
 
 
@@ -34,7 +37,7 @@ timerData.forEach(function(timerElement){
     
     timerItem.className = "timer-items";
     timerItemContent.className = "timer-items-content";
-    icon.className = "fas fa-trash-alt";
+    icon.className = "fas fa-trash-alt timer";
     
 
 
@@ -44,7 +47,7 @@ timerData.forEach(function(timerElement){
     button.type = "submit"
     button.name = "itemId"
     button.value = timerElement.id
-    button.className = "timer-delete-button"
+    button.className = "delete-button timer"
     
 
 
@@ -64,10 +67,6 @@ timerData.forEach(function(timerElement){
             //let startingTimeDB = timerElement.startingTime
             
             startCountdown(startingTime)
-            
-            
-            
-        
 
             $(formContainerStatus).submit(function(e){
                 e.preventDefault();
@@ -77,9 +76,7 @@ timerData.forEach(function(timerElement){
                     url:"/start",
                     data:data,
                     type:"POST",
-                    success:function(data){
-            
-                    }
+                    success:function(data){}
                 });
             });
         })
@@ -98,10 +95,10 @@ timerData.forEach(function(timerElement){
     
  
 
-    itemTitle.innerText = timerElement.title
-
+    itemTitle.innerText = (timerElement.title).length < 25 ? timerElement.title : (timerElement.title).substr(0, 25)
+    itemTitle.className = "time-title"
   
-    
+    itemTime.className = "time-showing"
     itemTime.id = "timer"
     buttonStartText.innerText = "Start Timer"
     
@@ -109,16 +106,16 @@ timerData.forEach(function(timerElement){
         itemTime.innerText = (hours === null ? "0" : hours) + "h " + (minutes < 10 ? "0" : "") + (minutes === null ? "0" : minutes) + "m " + (seconds < 10 ? "0" : "") + (seconds === null ? "0" : seconds) + "s "
     }
     
-
-
-    timerItem.appendChild(timerItemContent)
-    timerItemContent.appendChild(itemTitle)
-    timerItemContent.appendChild(itemTime)
-
+    
     timerItem.appendChild(formContainer)
     formContainer.appendChild(button)
     button.appendChild(icon)
     formContainer.appendChild(hiddenInput)
+    
+    timerItem.appendChild(timerItemContent)
+    timerItemContent.appendChild(itemTitle)
+    timerItemContent.appendChild(itemTime)
+    
 
 
     timerItem.appendChild(formContainerStatus)
@@ -133,8 +130,11 @@ timerData.forEach(function(timerElement){
    
 
     function startCountdown(time){
+        timerItem.style.borderLeft = "solid 20px rgb(114, 218, 204)"
+        buttonStart.style.backgroundColor = "#e2e1dc"  
         
-            // if there's a cookie with the name myClock, use that value as the deadline
+        
+        // if there's a cookie with the name myClock, use that value as the deadline
         var now = time   
         let deadline = timer(now, hours, minutes, seconds)
 
@@ -145,7 +145,7 @@ timerData.forEach(function(timerElement){
 
         console.log(deadline)
         // Update the count down every 1 second
-        var x = setInterval(function(time) {
+        var x = setInterval(function() {
             
             // Get todays date and time
             var timeNow = new Date().getTime()
@@ -166,7 +166,10 @@ timerData.forEach(function(timerElement){
             // If the count down is over, write some text 
             if (distance < 0) {
                 clearInterval(x);
+                timerItem.style.borderLeft = "solid 20px #bd0a0a"
+                
                 itemTime.innerText = "EXPIRED";
+                itemTime.style.color = "#bd0a0a"
             }
         }, 1000);
     }

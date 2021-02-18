@@ -25,18 +25,15 @@ mongoose.connect("mongodb://localhost:27017/timerAppDB", {useNewUrlParser: true,
 
 const listItemSchema = new mongoose.Schema({
   id: String,
-  title: {type:String,
-          required:true
-  },
+  title:String,
   content: String
 })
 const ListItem = mongoose.model("ListItem", listItemSchema);
 
 const timerItemSchema = new mongoose.Schema({
   id: String,
-  title: {type:String,
-          required:true
-  },
+  title:String,
+      
   time:{
     hours:Number,
     minutes:Number,
@@ -75,36 +72,10 @@ app.get("/timer", function(req, res){
       
       
       res.render("timer", {foundTimerItems: (foundTimerItems)}) 
-        // if(foundTimerItems !== 0  && timeData.length === 0){
-         
-        //     foundTimerItems.forEach(function(foundTimerItem){
-        //     timeData.push(foundTimerItem)
-            
-        //     })
-            
-        // }if(timeData.length === 0 && foundTimerItems.length === 0){
-          
-
-        // }else if(timeData.length < foundTimerItems.length){
-        
-        //   timeData.push(_.last(foundTimerItems))
-          
-        //   console.log("add the last item") 
-        // }else if(timeData.length > foundTimerItems.length){
-        //   timeData = []
-        //   foundTimerItems.forEach(function(foundTimerItem){
-        //   timeData.push(foundTimerItem)
-          
-        //   })
-        //   console.log("deleted one item")
-        // }
     }
   })
 })
 
-// app.get('/api', function(req, res){
-//   res.json(timeData); 
-// });
 
 
 
@@ -116,8 +87,8 @@ app.post("/", function(req, res){
   if(formType === "noteForm"){
     const list = new ListItem({
       id: mongoose.Types.ObjectId(),
-      title: req.body.title,
-      content: req.body.content
+      title: _.upperCase(req.body.title),
+      content: _.capitalize(req.body.content)
     })
 
     list.save();
@@ -128,7 +99,7 @@ app.post("/", function(req, res){
   } else if(formType === "timerForm"){
     const timer = new TimerItem({
       id: mongoose.Types.ObjectId(),
-      title: req.body.title,
+      title: (_.capitalize(req.body.title)).substr(0, 45),
       time:{
         hours:req.body.hours,
         minutes:req.body.minutes,
@@ -139,7 +110,7 @@ app.post("/", function(req, res){
     })
 
     timer.save();
-    console.log(timer)
+    
     res.redirect("/timer")
   } 
 })
@@ -159,7 +130,7 @@ app.post("/delete", function(req, res){
           return item !== itemId
           
         })
-        console.log(timeData)
+        
       }
     })
   }else if(collectionDB ==="list"){
@@ -175,11 +146,11 @@ app.post("/delete", function(req, res){
 
 
 app.post("/start", function(req, res){
-  console.log("clicked from DB")
+  
   const itemId = req.body.itemId
   var startingTime = req.body.startingTime
-  console.log(startingTime)
-  console.log(itemId)
+  
+  
   // const collectionDB = req.body.collection
   
    TimerItem.updateOne({id:itemId}, {status:true, startingTime:startingTime}, function(err){

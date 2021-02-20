@@ -1,5 +1,40 @@
 let timerData = JSON.parse(document.querySelector("#timerD").innerText);
 
+//general website animation(excluding each timer element and list element)
+window.onload = function(){
+    
+
+    let tl = gsap.timeline();
+
+    tl
+        .from(".logo", {
+            opacity:0,
+            duration:1,
+            x:"-20px",
+            ease:"elastic.out( 1, 0.2)"
+            
+        })
+
+        .from(".create-container", {
+            duration:0.8,
+            opacity:0,
+            x:"-7%",
+            
+            ease:"power3.out"
+        }, "-=0.7")
+
+        .from(".add-button", {
+            scale:0,
+            opacity:0,
+            duration:1,
+            ease:"elastic.out( 1.2, 0.5)"
+        }, "-=0.5")
+
+}
+
+
+
+
 
 
 
@@ -29,12 +64,7 @@ timerData.forEach(function(timerElement){
     let formContainerStatus = document.createElement("form")
     let buttonStart = document.createElement("button")
 
-    if(timerElement.status){
-        startingTimeDB = Number(timerElement.startingTime)
-        startCountdown(startingTimeDB)
-        console.log(startingTimeDB + "when refresh")
-    }
-    
+  
     timerItem.className = "timer-items";
     timerItemContent.className = "timer-items-content";
     icon.className = "fas fa-trash-alt timer";
@@ -58,6 +88,42 @@ timerData.forEach(function(timerElement){
     buttonStart.name = "itemId"
     buttonStart.value = timerElement.id
     buttonStart.className = "timer-start-button"
+    
+    
+
+    
+    hiddenInput.type = "hidden"
+    hiddenInput.name = "collection"
+    hiddenInput.value = "timer"
+    itemTitle.className = "time-title"
+  
+    itemTime.className = "time-showing"
+    itemTime.id = "timer"
+    buttonStartText.innerText = "Start Timer"
+    
+
+    // html positionning of elements for each timer Item
+    timerItem.appendChild(formContainer)
+    formContainer.appendChild(button)
+    button.appendChild(icon)
+    formContainer.appendChild(hiddenInput)
+    
+    timerItem.appendChild(timerItemContent)
+    timerItemContent.appendChild(itemTitle)
+    timerItemContent.appendChild(itemTime)
+    
+    timerItem.appendChild(formContainerStatus)
+    formContainerStatus.appendChild(buttonStart)
+    buttonStart.appendChild(buttonStartText)
+    
+    document.querySelector("#noteSection").appendChild(timerItem)
+
+
+
+    itemTitle.innerText = (timerElement.title).length < 25 ? timerElement.title : (timerElement.title).substr(0, 25)
+    if(!timerElement.status){
+        itemTime.innerText = (hours === null ? "0" : hours) + "h " + (minutes < 10 ? "0" : "") + (minutes === null ? "0" : minutes) + "m " + (seconds < 10 ? "0" : "") + (seconds === null ? "0" : seconds) + "s "
+    }
     
     if(!timerElement.status){
         
@@ -83,52 +149,15 @@ timerData.forEach(function(timerElement){
  
     };
     
-
-    
-    
-    
-
-
-    hiddenInput.type = "hidden"
-    hiddenInput.name = "collection"
-    hiddenInput.value = "timer"
-    
- 
-
-    itemTitle.innerText = (timerElement.title).length < 25 ? timerElement.title : (timerElement.title).substr(0, 25)
-    itemTitle.className = "time-title"
-  
-    itemTime.className = "time-showing"
-    itemTime.id = "timer"
-    buttonStartText.innerText = "Start Timer"
-    
-    if(!timerElement.status){
-        itemTime.innerText = (hours === null ? "0" : hours) + "h " + (minutes < 10 ? "0" : "") + (minutes === null ? "0" : minutes) + "m " + (seconds < 10 ? "0" : "") + (seconds === null ? "0" : seconds) + "s "
+    if(timerElement.status){
+        startingTimeDB = Number(timerElement.startingTime)
+        startCountdown(startingTimeDB)
+        console.log(startingTimeDB + "when refresh")
     }
     
-    
-    timerItem.appendChild(formContainer)
-    formContainer.appendChild(button)
-    button.appendChild(icon)
-    formContainer.appendChild(hiddenInput)
-    
-    timerItem.appendChild(timerItemContent)
-    timerItemContent.appendChild(itemTitle)
-    timerItemContent.appendChild(itemTime)
-    
 
 
-    timerItem.appendChild(formContainerStatus)
-    formContainerStatus.appendChild(buttonStart)
-    buttonStart.appendChild(buttonStartText)
-
-       
-    document.querySelector("#noteSection").appendChild(timerItem)
-
-
-    
-   
-
+    // countdown function for each timer element
     function startCountdown(time){
         timerItem.style.borderLeft = "solid 20px rgb(114, 218, 204)"
         buttonStart.style.backgroundColor = "#e2e1dc"  
@@ -174,71 +203,6 @@ timerData.forEach(function(timerElement){
         }, 1000);
     }
 });   
-
-
-
-
-
-   
-
-
-// function setCookie(cname,cvalue,exdays) {
-//     var d = new Date();
-//     d.setTime(d.getTime() + (exdays*24*60*60*1000));
-//     var expires = "expires=" + d.toGMTString();
-//     document.cookie = cname+"="+cvalue+"; "+expires;
-// }
-// function getCookie(cname) {
-//     var name = cname + "=";
-//     var ca = document.cookie.split(';');
-//     for(var i=0; i<ca.length; i++) {
-//         var c = ca[i];
-//         while (c.charAt(0)==' ') c = c.substring(1);
-//         if (c.indexOf(name) == 0) {
-//             return c.substring(name.length, c.length);
-//         }
-//     }
-//     return "";
-// }
-// window.onload = function startingTimer(){
-//     //countdown(prompt("Enter how many minutes you want to count down:"),true);
-//       countdown(2,true);
-// }
-
-
-
-
-
-
-
-
-
-
-
-
-// document.cookie.split(";").map(function(cookie){
-//     cookie.split("=").reduce((accumulator, [key, value]) => 
-//     ({...accumulator, [key.trim()]: decodeURIComponent(value)}))
-// })
-// let cookie = document.cookie
-
-
-// if(cookie.timerCookie === "timerCookie"){
-//    deadline = cookie.timerCookie
-   
-// }else{
-//     var hours = time.hours;
-//     var minutes = time.minutes;
-//     var seconds = time.seconds;
-//     var currentTime = Date.parse(new Date());
-//     var deadline = new Date(currentTime + hours*60*60*1000 +  minutes*60*1000 + seconds*1000);
-
-//     document.cookie= JSON.stringify("timercookie=" + deadline)
-// }
-
-
-
-
 
 
 

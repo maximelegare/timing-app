@@ -1,3 +1,5 @@
+
+
 let timerData = JSON.parse(document.querySelector("#timerD").innerText);
 
 //general website animation(excluding each timer element and list element)
@@ -14,6 +16,7 @@ window.onload = function(){
             ease:"elastic.out( 1, 0.2)"
             
         })
+        
 
         .from(".create-container", {
             duration:0.8,
@@ -31,9 +34,6 @@ window.onload = function(){
         }, "-=0.5")
 
 }
-
-
-
 
 
 
@@ -123,11 +123,13 @@ timerData.forEach(function(timerElement){
     itemTitle.innerText = (timerElement.title).length < 25 ? timerElement.title : (timerElement.title).substr(0, 25)
     if(!timerElement.status){
         itemTime.innerText = (hours === null ? "0" : hours) + "h " + (minutes < 10 ? "0" : "") + (minutes === null ? "0" : minutes) + "m " + (seconds < 10 ? "0" : "") + (seconds === null ? "0" : seconds) + "s "
+        
     }
     
-    if(!timerElement.status){
-        
-        buttonStart.addEventListener("click", function(){
+    
+   
+    buttonStart.addEventListener("click", function(event){
+        console.log(timerElement.status)   
             let startingTime = new Date().getTime();
             
             //let startingTimeDB = timerElement.startingTime
@@ -143,22 +145,26 @@ timerData.forEach(function(timerElement){
                     data:data,
                     type:"POST",
                     success:function(data){}
-                });
-            });
+                })
+            })
+            
+        buttonStart.style.visibility = "hidden" 
         })
- 
-    };
+    
     
     if(timerElement.status){
         startingTimeDB = Number(timerElement.startingTime)
         startCountdown(startingTimeDB)
         console.log(startingTimeDB + "when refresh")
+        
+        buttonStart.style.visibility = "hidden" 
     }
     
 
 
     // countdown function for each timer element
     function startCountdown(time){
+        
         timerItem.style.borderLeft = "solid 20px rgb(114, 218, 204)"
         buttonStart.style.backgroundColor = "#e2e1dc"  
         

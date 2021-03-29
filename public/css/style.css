@@ -231,7 +231,7 @@ form input, form textarea{
 }
 
 .line-header--left{
-    margin-left: -80px;
+    margin-right: 80px;
 }
 .line-header--right{
     margin-right: -103px;

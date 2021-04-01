@@ -1,9 +1,9 @@
 <template>
   <div class="create-notes-container">
-    <h2>List item</h2>
+    <h2>Note item</h2>
     <div class="form-container">
       <form>
-        <base-button mode="add-button"></base-button>
+        <base-button mode="add-button" icon="fas fa-plus"></base-button>
 
         <input name="title" type="text" placeholder="Title" />
         <textarea
@@ -16,16 +16,6 @@
     </div>
   </div>
 </template>
-
-<script>
-import BaseButton from "../ui/BaseButton";
-
-export default {
-  components: {
-    BaseButton,
-  },
-};
-</script>
 
 <style scoped>
 .form-container {
@@ -40,7 +30,6 @@ form {
 
 form input,
 form textarea {
-
   width: 100%;
   padding: 15px 10px;
   border: none;

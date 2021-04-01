@@ -1,16 +1,12 @@
 <template>
   <div class="note">
-    <form action="/delete" method="POST">
-      <button
-        type="submit"
-        name="itemId"
-        class="delete-button list"
-        value="<%= foundListItem.id %>"
-      >
-        <i class="fas fa-trash-alt"></i>
-      </button>
+    <form>
+      <base-button icon="fas fa-trash-alt" mode="delete-note"></base-button>
       <input type="hidden" name="collection" value="list" />
     </form>
+    <h3>Title</h3>
+    <h4>This is some content that I want to share with all of you guys!</h4>
+
     <!-- <h3><%=(foundListItem.title).length < 20 ? foundListItem.title : (foundListItem.title).substr(0, 20) + " ..."  %></h3> -->
     <!-- <h4><%=(foundListItem.content).length < 90 ? foundListItem.content : (foundListItem.content).substr(0, 90) + " ..." %></h4> -->
     <!-- <a href="#" class="list-more"><%=(foundListItem.content).length < 90 ? "" : "more" %></a> -->
@@ -29,4 +25,21 @@ export default {};
     background-image: url('../../assets/img/post-it.svg');
     background-repeat: none;
     background-size: cover;
-}</style>
+    
+}
+
+h3{
+    padding-top: 5px;
+    width: 240px;  
+    margin: 40px auto 0 auto;
+    line-height: 1.2;
+    text-align: center;
+     
+}
+
+h4{
+    width: 240px;
+    margin: 7px auto 0 auto;
+    text-align: center;
+} 
+</style>

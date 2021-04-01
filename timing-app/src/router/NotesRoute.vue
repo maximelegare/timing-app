@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import NoteItem from "../components/noteItem/NoteItem.vue";
+import NoteItem from "../components/items/NoteItem.vue";
 export default {
   components: {
     NoteItem,

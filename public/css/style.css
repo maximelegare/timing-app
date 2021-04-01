@@ -4,16 +4,16 @@
     box-sizing: border-box;
 }
 
-body{
+/* body{
     background-color: rgb(240, 239, 232);
-}
+} */
 
-.body-container{
+/* .body-container{
     display: flex; 
     width: 80%;
     margin: 50px auto 50px auto; 
     justify-content: space-between;      
-}
+} */
 
 /* ////////////////////////
 GENERAL FONT SPECIFICATIONS
@@ -150,7 +150,7 @@ SPECIFIC FONT SPECIFICATIONS
 ///////////////////////// */
 
 /* HEADER SECTION */
-.logo{
+/* .logo{
     width: 100%;
 }
 
@@ -161,10 +161,10 @@ header{
     display: flex;
     align-items: center;
     box-shadow: 0px 3px 3px rgba(145, 145, 145, 0.562);   
-}
+} */
 
 /* FORM SECTION */
-.form-container{
+/* .form-container{
     display: flex;
     justify-content: center;
     margin-top: 30px;    
@@ -185,7 +185,7 @@ form input, form textarea{
     font-family: 'Open Sans', sans-serif; 
     font-size: 1.1rem;
     resize: none;
-}
+} */
 
 /* form to select an amount of time */
 .form-time{
@@ -211,7 +211,7 @@ form input, form textarea{
 /* NOTES SECTION */
 /* NOTE HEADER */
 /* buttons to chose timer page/list page */
-.notes-header{
+/* .notes-header{
     display: flex;
     justify-content: center;
     margin-bottom: 20px;
@@ -219,7 +219,7 @@ form input, form textarea{
 
 .notes-header{
     display: flex;
-}
+} */
 /* line under the selected page */
 .line-header{
     position: absolute;
@@ -247,23 +247,23 @@ form input, form textarea{
 }
 
 /* wrap each elements inside note section AND timer section. The same class is applied */
-.notes-section{
+/* .notes-section{
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
     margin-bottom: 60px;
-}
+} */
 
 /* each individual note */
-.note{
+/* .note{
     margin: 30px 10px;
     width:300px;
     height: 300px;
     background-image: url(/img/post-it.svg);
     background-repeat: none;
     background-size: cover;
-}
+} */
 
 
 /* each individual timer   */

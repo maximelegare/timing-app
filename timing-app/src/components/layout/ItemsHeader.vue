@@ -1,9 +1,9 @@
 <template>
    <div :class="page" class="notes-header">
-      <router-link to="/timer" class="bold" id="timerButton">Timers</router-link>
+      <router-link to="timer" class="bold" id="timerButton">Timers</router-link>
       <span class="separator"></span>
-      <router-link to="/note" class="dim">Notes</router-link>
-      <div class="line-header line-header--left"></div>
+      <router-link to="note" class="dim" type="button">Notes</router-link>
+      <item-header-line></item-header-line>
     </div> 
 </template>
 
@@ -11,13 +11,12 @@
 
 
 <script>
+import ItemHeaderLine from './ItemHeaderLine.vue'
 export default {
-    // props:{
-    //     page:{
-    //         type:String,
-    //         require:true
-    //     }
-    // }
+    components:{
+        ItemHeaderLine
+    },
+   
 }
 </script>
 
@@ -33,14 +32,7 @@ export default {
     margin-bottom: 20px;
 }
 
-.line-header{
-    position: absolute;
-    width: 30px;
-    height: 4px;
-    background-color:rgb(114, 218, 204);
-    border-radius: 10px;
-    margin-top: 60px;
-}
+
  a {
   color: rgb(83, 70, 70);
   font-family: "Comfortaa", cursive;

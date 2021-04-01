@@ -6,8 +6,10 @@ import TimerRoute from './router/TimerRoute.vue'
 const router = createRouter({
     history: createWebHistory(),
     routes:[
+        {path:'/', redirect: '/timer'},
         {path:'/note', component:NotesRoute},
-        {path:'/timer', component:TimerRoute}
+        {path:'/timer', component:TimerRoute},
+        
     ]
 })
 

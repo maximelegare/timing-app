@@ -25,6 +25,7 @@ export default {
     ItemsHeader,
     
   },
+  
 };
 </script>
 
@@ -101,6 +102,9 @@ h4 {
   font-family: "Open Sans", sans-serif;
   color: rgb(160, 160, 147);
   line-height: 1.3;
+}
+button{
+   font-family: "Open Sans", sans-serif;
 }
 
 @media (max-width: 800px) {

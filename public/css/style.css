@@ -84,20 +84,20 @@ SPECIFIC FONT SPECIFICATIONS
 
 
 
-.note h3{
+/* .note h3{
     padding-top: 5px;
     width: 240px;  
     margin: 40px auto 0 auto;
     line-height: 1.2;
     text-align: center;
      
-}
+} */
 
-.note h4{
+/* .note h4{
     width: 240px;
     margin: 7px auto 0 auto;
     text-align: center;
-} 
+}  */
 
 .timer-items button.timer-start-button p{ 
     color:white;

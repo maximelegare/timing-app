@@ -4,8 +4,8 @@
       <base-button icon="fas fa-trash-alt" mode="delete-note"></base-button>
       <input type="hidden" name="collection" value="list" />
     </form>
-    <h3>Title</h3>
-    <h4>This is some content that I want to share with all of you guys!</h4>
+    <h3>{{title}}</h3>
+    <h4>{{ content }}</h4>
 
     <!-- <h3><%=(foundListItem.title).length < 20 ? foundListItem.title : (foundListItem.title).substr(0, 20) + " ..."  %></h3> -->
     <!-- <h4><%=(foundListItem.content).length < 90 ? foundListItem.content : (foundListItem.content).substr(0, 90) + " ..." %></h4> -->
@@ -14,7 +14,9 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props:['id', 'content', 'title']
+};
 </script>
 
 <style scoped>

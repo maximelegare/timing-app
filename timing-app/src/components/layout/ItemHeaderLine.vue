@@ -4,14 +4,8 @@
 
 <script>
 export default {
-  data() {
-    this.$route.path === "/timer"
-      ? (this.route = "timer-route")
-      : (this.route = "note-route");
-  },
-  mounted(){
-      console.log(this.$router.currentRoute.value.path)
-  }
+props:['route']
+ 
 };
 </script>
 
@@ -22,7 +16,7 @@ span {
   height: 4px;
   background-color: rgb(114, 218, 204);
   border-radius: 10px;
-  margin-top: 35px;
+  margin-top: -10px;
 }
 .timer-route {
   margin-left: -100px;

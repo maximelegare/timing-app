@@ -2,8 +2,8 @@
 
   <div class="timer-items">
       <div id="timerItemContent" class="timer-items-content">
-        <h3 class="title">title</h3>
-        <h3>0h 10m 00s</h3>
+        <h3 class="title">{{title}}</h3>
+        <h3>{{time}}</h3>
       </div>
       <form>
         <base-button mode="delete-timer" icon="fas fa-trash-alt"></base-button>
@@ -14,6 +14,15 @@
       </form>
   </div>
 </template>
+
+<script>
+export default {
+  props:['time', 'id', 'title']
+}
+</script>
+
+
+
 
 <style scoped>
 .timer-items {

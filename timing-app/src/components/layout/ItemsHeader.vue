@@ -3,7 +3,7 @@
       <router-link to="timer" class="bold" id="timerButton">Timers</router-link>
       <span class="separator"></span>
       <router-link to="note" class="dim" type="button">Notes</router-link>
-      <item-header-line></item-header-line>
+      
     </div> 
 </template>
 
@@ -11,11 +11,10 @@
 
 
 <script>
-import ItemHeaderLine from './ItemHeaderLine.vue'
+
 export default {
-    components:{
-        ItemHeaderLine
-    },
+   
+    
    
 }
 </script>

@@ -1,16 +1,16 @@
 <template>
 <div class="create-container">
-  <list-form></list-form>
+  <note-form></note-form>
   <timer-form></timer-form>
 </div>
 </template>
 
 <script>
-import ListForm from "./ListForm.vue";
+import NoteForm from "./NoteForm.vue";
 import TimerForm from './TimerForm.vue';
 
 export default {
-  components: { ListForm, TimerForm },
+  components: { NoteForm, TimerForm },
 };
 </script>
 

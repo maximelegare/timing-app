@@ -2,12 +2,12 @@
   <div class="create-notes-container">
     <h2>Note item</h2>
     <div class="form-container">
-      <form>
+      <form @submit.prevent="sendNote">
         <base-button mode="add-button" icon="fas fa-plus"></base-button>
 
-        <input name="title" type="text" placeholder="Title" />
+        <input type="text" placeholder="Title" v-model="title" />
         <textarea
-          name="content"
+          v-model="content"
           type="text"
           placeholder="Content"
           rows="3"
@@ -16,6 +16,35 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      title: "",
+      content: "",
+    };
+  },
+  computed: {
+    user() {
+      return this.$store.getters.userId;
+    },
+  },
+  methods: {
+    sendNote() {
+      this.$store.dispatch("items/addNote", {
+        title: this.title,
+        content: this.content,
+        userId:this.user
+      });
+      this.$router.push({name: 'notes'})
+      this.title = "";
+      this.content = "";
+      
+    },
+  },
+};
+</script>
 
 <style scoped>
 .form-container {

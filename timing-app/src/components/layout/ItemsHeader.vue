@@ -1,8 +1,8 @@
 <template>
    <div :class="page" class="notes-header">
-      <router-link to="timer" class="bold" id="timerButton">Timers</router-link>
+      <router-link :to="{name: 'timers'}" class="bold" id="timerButton">Timers</router-link>
       <span class="separator"></span>
-      <router-link to="note" class="dim" type="button">Notes</router-link>
+      <router-link :to="{name:'notes'}" class="dim" type="button">Notes</router-link>
       
     </div> 
 </template>
@@ -40,8 +40,13 @@ export default {
   text-align: center;
   transition: all 200ms ease;
   text-decoration: none;
-  width: 100px;
-  
+  width: 100px;  
+}
+a:hover{
+  color: rgb(114, 218, 204);
+}
+a.router-link-exact-active{
+  color: rgb(114, 218, 204);
 }
 
 

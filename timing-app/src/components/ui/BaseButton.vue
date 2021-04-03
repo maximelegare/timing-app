@@ -1,5 +1,5 @@
 <template>
-  <button type="button" :title="text" :class="mode">
+  <button :title="text" :class="mode">
     {{ title }}<i :class="icon" v-if="!!icon"></i>
   </button>
 </template>

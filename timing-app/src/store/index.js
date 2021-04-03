@@ -9,7 +9,6 @@ const store = createStore({
   state() {
     return {
       userId: "u1",
-      route: "",
     };
   },
   getters: {

@@ -1,11 +1,12 @@
 <template>
-  <span :class="route"></span>
+  <div class="line-container">
+    <span :class="route"></span>
+  </div>
 </template>
 
 <script>
 export default {
-props:['route']
- 
+  props: ["route"],
 };
 </script>
 
@@ -17,6 +18,10 @@ span {
   background-color: rgb(114, 218, 204);
   border-radius: 10px;
   margin-top: -10px;
+}
+.line-container{
+  display: flex;
+  justify-content: center;
 }
 .timer-route {
   margin-left: -100px;

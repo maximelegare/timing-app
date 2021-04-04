@@ -5,7 +5,7 @@
       <form-section></form-section>
       <div class="notes-container">
         <items-header></items-header>
-        <div class="notes-section note-items">
+        <div class="items-section">
           <router-view></router-view>
         </div>
       </div>
@@ -60,13 +60,7 @@ body {
   box-shadow: 0px 3px 3px rgba(145, 145, 145, 0.404);
 }
 
-.notes-section {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
-  margin-bottom: 60px;
-}
+
 
 ol,
 ul {

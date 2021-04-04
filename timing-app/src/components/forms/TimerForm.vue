@@ -61,7 +61,7 @@ export default {
         userId: this.user,
       };
       
-      this.$store.dispatch("items/addTimer", userData);
+      this.$store.dispatch("timers/addTimer", userData);
       this.$router.push({name: 'timers'})
       this.title = "";
       this.time.hours = null

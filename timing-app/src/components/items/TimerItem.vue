@@ -5,19 +5,28 @@
         <h3 class="title">{{title}}</h3>
         <h3>{{time}}</h3>
       </div>
-      <form>
+      <form @submit.prevent="deleteTimer">
         <base-button mode="delete-timer" icon="fas fa-trash-alt"></base-button>
       </form>
       <form >
-        <base-button text="Start Timer" mode="start-timer"></base-button>
-        
+        <base-button text="Start Timer" mode="start-timer"></base-button>  
       </form>
   </div>
 </template>
 
 <script>
 export default {
-  props:['time', 'id', 'title']
+  props:['time', 'id', 'title'],
+  methods:{
+    deleteTimer(){
+      this.$store.dispatch('timers/deleteTimer', this.id)
+    }
+  }
+
+
+
+
+
 }
 </script>
 

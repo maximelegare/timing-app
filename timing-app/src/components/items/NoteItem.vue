@@ -1,6 +1,6 @@
 <template>
   <div class="note">
-    <form>
+    <form @submit.prevent="deleteNote">
       <base-button icon="fas fa-trash-alt" mode="delete-note"></base-button>
       <input type="hidden" name="collection" value="list" />
     </form>
@@ -15,7 +15,12 @@
 
 <script>
 export default {
-  props:['id', 'content', 'title']
+  props:['id', 'content', 'title'],
+    methods:{
+    deleteNote(){
+      this.$store.dispatch('notes/deleteNote', this.id)
+    }
+  }
 };
 </script>
 
@@ -30,7 +35,7 @@ export default {
     
 }
 
-h3{
+div h3{
     padding-top: 5px;
     width: 240px;  
     margin: 40px auto 0 auto;
@@ -38,8 +43,15 @@ h3{
     text-align: center;
      
 }
+.items-section {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  margin-bottom: 60px;
+}
 
-h4{
+div h4{
     width: 240px;
     margin: 7px auto 0 auto;
     text-align: center;

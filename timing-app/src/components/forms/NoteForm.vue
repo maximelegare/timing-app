@@ -32,7 +32,7 @@ export default {
   },
   methods: {
     sendNote() {
-      this.$store.dispatch("items/addNote", {
+      this.$store.dispatch("notes/addNote", {
         title: this.title,
         content: this.content,
         userId:this.user

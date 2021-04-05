@@ -16,8 +16,10 @@
 </template>
 
 <script>
+
 export default {
   props: ["time", "id", "title"],
+  
   data() {
     return {
       timerStatus: false,
@@ -25,20 +27,20 @@ export default {
     };
   },
   methods: {
-    startTimer(){
-      this.timerStatus = true
-      let timeValues = {
-          timerId:this.id,
-          hours: this.time.hours,
-          minutes: this.time.minutes ,
-          seconds: this.time.seconds +1,
-          startingTime: new Date().getTime(),
-          timerStatus:true,
-          timerExpired:false
-        }
-
-      this.$store.dispatch('timers/startTimer', timeValues)
-    },
+   startTimer(){
+            this.timerStatus = true
+         
+            let timeValues = {
+                hours: this.time.hours,
+                minutes: this.time.minutes ,
+                seconds: this.time.seconds +1,
+                startingTime: new Date().getTime(),
+                timerStatus:true,
+                timerExpired:false
+              }
+      
+            this.$store.dispatch('timers/startTimer', timeValues)
+   },
     deleteTimer() {
       this.$store.dispatch("timers/deleteTimer", this.id);
     },
@@ -60,6 +62,9 @@ export default {
     },
     timerExpired(){
       return this.$store.getters['timers/timerExpired']
+    },
+    userLoggedIn(){
+      return this.$store.getters.userId
     }
   },
   created() {

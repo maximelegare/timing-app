@@ -4,8 +4,8 @@
   </transition>
   <base-spinner v-if="isLoading"></base-spinner>
   <div v-if="!isLoading" class="items-section">
-    <p v-if="!hasNotes">No notes found. Start adding some now!</p>
-    <note-item
+    <p v-if="!hasNotes">No note were found. Start adding some now!</p>
+    <note-item @loadNotes="loadNotes"
       v-for="item in notes"
       :key="item.id"
       :id="item.id"
@@ -28,9 +28,10 @@ export default {
   },
   data() {
     return {
-      isLoading: false,
+      isLoading: false
     };
   },
+ 
   computed: {
     notes() {
       return this.$store.getters["notes/notes"];

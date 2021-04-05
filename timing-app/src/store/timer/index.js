@@ -8,7 +8,15 @@ export default{
     namespaced:true,
     state(){
         return{
-            timers:[]
+            timers:[],
+            countdownValues : {
+                hours:null,
+                minutes:null,
+                seconds:null,
+                timerStatus:false,
+                startingTime:null, 
+                timerExpired:false
+            },
         }
     },
     getters,

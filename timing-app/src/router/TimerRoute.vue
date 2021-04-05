@@ -4,8 +4,8 @@
   </transition>
   <base-spinner v-if="isLoading"></base-spinner>
   <div class="items-section" v-if="!isLoading">
-    <p v-if="!hasTimers">No timers found. Start adding some now!</p>
-    <timer-item
+    <p v-if="!hasTimers">No timer were found. Start adding some now!</p>
+    <timer-item @loadTimers="loadTimers"
       v-for="item in timers"
       :key="item.id"
       :title="item.title"
@@ -14,6 +14,9 @@
     ></timer-item>
   </div>
 </template>
+
+
+
 
 <script>
 import BaseSpinner from "../components/ui/BaseSpinner.vue";
@@ -55,7 +58,7 @@ export default {
     },
     async loadTimers() {
       this.isLoading = true;
-      console.log(this.isLoading);
+      
       try {
         await this.$store.dispatch("timers/loadTimers");
       } catch (error) {

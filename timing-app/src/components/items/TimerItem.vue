@@ -9,38 +9,212 @@
     <form @submit.prevent="deleteTimer">
       <base-button mode="delete-timer" icon="fas fa-trash-alt"></base-button>
     </form>
-    <form @submit.prevent="startTimer">
+    <form @submit.prevent="timerRequestDB">
       <base-button text="Start Timer" mode="start-timer"></base-button>
     </form>
   </div>
 </template>
 
 <script>
-
 export default {
   props: ["time", "id", "title"],
-  // this is a test
+
   data() {
     return {
+      displayHours: null,
+      displayMinutes: null,
+      displaySeconds: null,
       timerStatus: false,
-      
+      startingTime: null,
+      timerExpired: false,
     };
   },
+  mounted() {
+    this.timerStatusValidation();
+  },
+
+  computed: {
+    countdownValues() {
+      // const values = this.$store.getters["timers/countdownValues"];
+      // return this.seconds;
+
+      if (this.displayHours !== null) {
+        return (
+         (this.displayHours < 10 ? "0" : "") +
+          this.displayHours +
+          "h " +
+          (this.displayMinutes < 10 ? "0" : "") +
+          this.displayMinutes +
+          "m " +
+          (this.displaySeconds < 10 ? "0" : "") +
+          this.displaySeconds +
+          "s "
+        );
+      } else {
+        return (
+          (this.time.hours < 10 ? "0" : "") +
+          this.time.hours +
+          "h " +
+          (this.time.minutes < 10 ? "0" : "") +
+          this.time.minutes +
+          "m " +
+          (this.time.seconds < 10 ? "0" : "") +
+          this.time.seconds +
+          "s "
+        );
+      }
+    },
+
+    timeShown() {
+      return (
+        (this.time.hours < 10 ? "0" : "") +
+          this.time.hours +
+          "h " +
+        (this.time.minutes < 10 ? "0" : "") +
+        this.time.minutes +
+        "m " +
+        (this.time.seconds < 10 ? "0" : "") +
+        this.time.seconds +
+        "s "
+      );
+    },
+
+    userLoggedIn() {
+      return this.$store.getters.userId;
+    },
+  },
   methods: {
-   startTimer(){
-            this.timerStatus = true
-         
-            let timeValues = {
-                hours: this.time.hours,
-                minutes: this.time.minutes ,
-                seconds: this.time.seconds +1,
-                startingTime: new Date().getTime(),
-                timerStatus:true,
-                timerExpired:false
-              }
+   async timerStatusValidation() {
+      const userId = this.userLoggedIn;
+
+      const timerId = this.id;
+      const response = await fetch(
+        `https://timing-app-7c35b-default-rtdb.firebaseio.com/${userId}/timers/${timerId}/time.json`);
+
+
+      const responseData = await response.json();
+      if(responseData === null){
+        return
+      }
+      else if (!response.ok) {
+        const err = new Error(responseData.message || "failed to update DB");
+        throw err;
+      }
+
+    
+
+      if(responseData.timerStatus === true){
+        this.timerStatus = true
+        const timerDBvalues = {
+          hours: responseData.hours,
+          minutes:responseData.minutes,
+          seconds:responseData.seconds,
+          startingTime:responseData.startingTime
+        }
+        this.countdown(timerDBvalues)
+      }else{
+        return
+      }
+
+    },
+    async timerRequestDB() {
+      this.timerStatus = true;
+
+      const userId = this.userLoggedIn;
+
+      const timerId = this.id;
+
+      const timerValues = {
+        hours: this.time.hours,
+        minutes: this.time.minutes,
+        seconds: this.time.seconds + 1,
+        startingTime: new Date().getTime(),
+        timerStatus: true,
+        timerExpired: false,
+      };
+
+      const response = await fetch(
+        `https://timing-app-7c35b-default-rtdb.firebaseio.com/${userId}/timers/${timerId}/time.json`,
+        {
+          method: "PUT",
+          body: JSON.stringify(timerValues),
+        }
+      );
+      const responseData = await response.json();
+      if (!response.ok) {
+        const err = new Error(responseData.message || "failed to update DB");
+        throw err;
+      }
+
+
       
-            this.$store.dispatch('timers/startTimer', timeValues)
-   },
+      this.countdown(timerValues);
+    },
+    countdown(payload) {
+      let hours = payload.hours;
+      let minutes = payload.minutes;
+      let seconds = payload.seconds;
+      let startingTime = payload.startingTime;
+
+      let now = startingTime;
+      let deadline = timer(now, hours, minutes, seconds);
+
+      
+
+      function timer(date, hours, minutes, seconds) {
+        return new Date(
+          date + hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000
+        );
+      }
+
+      var x = setInterval(() => {
+        // Get todays date and time
+        var timeNow = new Date().getTime();
+
+        // Find the distance between now an the count down date
+        var distance = deadline - timeNow;
+
+        // Time calculations for days, hours, minutes and seconds
+        var hours = Math.floor(
+          (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        this.displayHours = hours;
+        this.displayMinutes = minutes;
+        this.displaySeconds = seconds;
+
+        
+
+       
+
+        //   context.commit("countdownValues", countdownValues);
+
+        // itemTime.innerText = hours + "h " + (minutes < 10 ? "0" : "") + minutes + "m " + (seconds < 10 ? "0" : "")+ seconds + "s ";
+
+        // If the count down is over, write some text
+
+        if (distance < 0) {
+          clearInterval(x);
+
+          this.hours = 0;
+          this.minutes = 0;
+          (this.seconds = 0),
+            (this.timerStatus = true),
+            //   startingTime,
+            (this.timerExpired = true);
+
+          // context.commit('countdownValues', expiredCountdown)
+      
+          // timerItem.style.borderLeft = "solid 20px #bd0a0a";
+
+          // itemTime.innerText = "EXPIRED";
+          // itemTime.style.color = "#bd0a0a";
+        }
+      }, 1000);
+    },
+
     deleteTimer() {
       this.$store.dispatch("timers/deleteTimer", this.id);
     },
@@ -48,25 +222,7 @@ export default {
   // mounted(){
   //   this.timerStatus = this.
   // },
-  computed:{
-    countdownValues(){  
-      const values = this.$store.getters['timers/countdownValues']  
-      if(values.hours !== null){
-        return values.hours + "h " + (values.minutes < 10 ? "0" : "") + values.minutes + "m " + (values.seconds < 10 ? "0" : "")+ values.seconds + "s "   
-      }else{
-        return this.time.hours + "h " + (this.time.minutes < 10 ? "0" : "") + this.time.minutes + "m " + (this.time.seconds < 10 ? "0" : "")+ this.time.seconds + "s "
-      }
-    },
-    timeShown(){
-      return this.time.hours + "h " + (this.time.minutes < 10 ? "0" : "") + this.time.minutes + "m " + (this.time.seconds < 10 ? "0" : "")+ this.time.seconds + "s "
-    },
-    timerExpired(){
-      return this.$store.getters['timers/timerExpired']
-    },
-    userLoggedIn(){
-      return this.$store.getters.userId
-    }
-  },
+
   created() {
     if (this.id === undefined) {
       this.$emit("loadTimers");

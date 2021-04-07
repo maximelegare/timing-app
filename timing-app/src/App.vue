@@ -97,6 +97,12 @@ h4 {
   color: rgb(160, 160, 147);
   line-height: 1.3;
 }
+p{
+  font-family: "Open Sans", sans-serif;
+    font-size: 1rem;
+    color: rgb(160, 160, 147);
+
+}
 button{
    font-family: "Open Sans", sans-serif;
 }

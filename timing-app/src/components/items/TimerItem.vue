@@ -1,46 +1,73 @@
 <template>
-  <div class="timer-items">
-    <div id="timerItemContent" class="timer-items-content">
-      <h3 class="title">{{ title }}</h3>
-      <h3 v-if="!timerStatus && !expirationStatus">{{ timeShown }}</h3>
-      <h3 v-else-if="timerStatus && !timerExpired">{{ countdownValues }}</h3>
-      <h3 v-else-if="timerStatus && timerExpired">EXPIRED</h3>
+  <div class="timer-items" :class="{timerStarted : timerStatus, timerExpired :timerExpired}">
+    <div id="timerItemContent" class="timer-items-content" >
+      <h3 class="title">{{ itemTitle }}</h3>
+      <!-- <base-spinner v-if="countdownValues"></base-spinner> -->
+      <h3 class="time" v-if="!isLoading && !timerStatus && !expirationStatus">
+        {{ timeShown }}
+      </h3>
+      <h3 class="time" v-else-if="!isLoading && timerStatus && !timerExpired">
+        {{ countdownValues }}
+      </h3>
+      <h3 class="time expired"  v-else-if="!isLoading && timerStatus && timerExpired">EXPIRED</h3>
     </div>
     <form @submit.prevent="deleteTimer">
       <base-button mode="delete-timer" icon="fas fa-trash-alt"></base-button>
     </form>
-    <form @submit.prevent="timerRequestDB">
+    <form @submit.prevent="timerRequestDB" v-if="!timerStatus">
       <base-button text="Start Timer" mode="start-timer"></base-button>
     </form>
   </div>
 </template>
 
 <script>
+var _ = require('lodash')
 export default {
   props: ["time", "id", "title"],
+  components: {
+    // BaseSpinner,
+  },
 
   data() {
     return {
       displayHours: null,
       displayMinutes: null,
       displaySeconds: null,
-      timerStatus: false,
+      timerStatus: this.time.timerStatus ?? false,
       startingTime: null,
-      timerExpired: false,
+      timerExpired: this.time.timerExpired ?? false,
     };
   },
   mounted() {
-    this.timerStatusValidation();
+    if (this.timerStatus === true) {
+      const timerDBvalues = {
+        hours: this.time.hours,
+        minutes: this.time.minutes,
+        seconds: this.time.seconds,
+        startingTime: this.time.startingTime,
+      };
+      
+      this.countdown(timerDBvalues);
+      
+
+    } else {
+      return;
+    }
+
+    
   },
 
   computed: {
+    itemTitle(){
+      return this.title.length < 25 ? _.capitalize(this.title)  : (_.capitalize(this.title)).substr(0, 25) + '...'
+    },
     countdownValues() {
       // const values = this.$store.getters["timers/countdownValues"];
       // return this.seconds;
 
       if (this.displayHours !== null) {
         return (
-         (this.displayHours < 10 ? "0" : "") +
+          (this.displayHours < 10 ? "0" : "") +
           this.displayHours +
           "h " +
           (this.displayMinutes < 10 ? "0" : "") +
@@ -51,25 +78,16 @@ export default {
           "s "
         );
       } else {
-        return (
-          (this.time.hours < 10 ? "0" : "") +
-          this.time.hours +
-          "h " +
-          (this.time.minutes < 10 ? "0" : "") +
-          this.time.minutes +
-          "m " +
-          (this.time.seconds < 10 ? "0" : "") +
-          this.time.seconds +
-          "s "
-        );
+        return 'loading...'
+
       }
     },
 
     timeShown() {
       return (
         (this.time.hours < 10 ? "0" : "") +
-          this.time.hours +
-          "h " +
+        this.time.hours +
+        "h " +
         (this.time.minutes < 10 ? "0" : "") +
         this.time.minutes +
         "m " +
@@ -84,39 +102,6 @@ export default {
     },
   },
   methods: {
-   async timerStatusValidation() {
-      const userId = this.userLoggedIn;
-
-      const timerId = this.id;
-      const response = await fetch(
-        `https://timing-app-7c35b-default-rtdb.firebaseio.com/${userId}/timers/${timerId}/time.json`);
-
-
-      const responseData = await response.json();
-      if(responseData === null){
-        return
-      }
-      else if (!response.ok) {
-        const err = new Error(responseData.message || "failed to update DB");
-        throw err;
-      }
-
-    
-
-      if(responseData.timerStatus === true){
-        this.timerStatus = true
-        const timerDBvalues = {
-          hours: responseData.hours,
-          minutes:responseData.minutes,
-          seconds:responseData.seconds,
-          startingTime:responseData.startingTime
-        }
-        this.countdown(timerDBvalues)
-      }else{
-        return
-      }
-
-    },
     async timerRequestDB() {
       this.timerStatus = true;
 
@@ -141,16 +126,18 @@ export default {
         }
       );
       const responseData = await response.json();
+
       if (!response.ok) {
         const err = new Error(responseData.message || "failed to update DB");
         throw err;
       }
 
-
-      
       this.countdown(timerValues);
     },
+
     countdown(payload) {
+      this.isLoading = false
+
       let hours = payload.hours;
       let minutes = payload.minutes;
       let seconds = payload.seconds;
@@ -158,8 +145,6 @@ export default {
 
       let now = startingTime;
       let deadline = timer(now, hours, minutes, seconds);
-
-      
 
       function timer(date, hours, minutes, seconds) {
         return new Date(
@@ -185,10 +170,6 @@ export default {
         this.displayMinutes = minutes;
         this.displaySeconds = seconds;
 
-        
-
-       
-
         //   context.commit("countdownValues", countdownValues);
 
         // itemTime.innerText = hours + "h " + (minutes < 10 ? "0" : "") + minutes + "m " + (seconds < 10 ? "0" : "")+ seconds + "s ";
@@ -206,7 +187,7 @@ export default {
             (this.timerExpired = true);
 
           // context.commit('countdownValues', expiredCountdown)
-      
+
           // timerItem.style.borderLeft = "solid 20px #bd0a0a";
 
           // itemTime.innerText = "EXPIRED";
@@ -232,6 +213,7 @@ export default {
 </script>
 
 <style scoped>
+
 .timer-items {
   margin: 40px 10px;
   border-left: solid 20px #e2e1dc;
@@ -242,6 +224,14 @@ export default {
   box-shadow: 0px 4px 6px rgba(126, 126, 126, 0.404);
 }
 
+.timerStarted{
+  border-left: solid 20px rgb(114, 218, 204);
+  transition: 250ms all ;
+}
+.timerExpired{
+  border-left: solid 20px #bd0a0a;
+  transition: 250ms all ;
+}
 .timer-items-content {
   height: 100%;
   display: flex;
@@ -253,5 +243,14 @@ h3.title {
   margin-left: 10px;
   text-align: left;
   width: 200px;
+}
+h3.time{
+  margin-right: 10px;
+  text-align: right;
+  width: 200px;
+}
+
+.expired{
+  color: #bd0a0a;
 }
 </style>

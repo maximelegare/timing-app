@@ -14,6 +14,6 @@ export default {
   },
   countdownValues(state, payload){
     state.countdownValues = payload
-    console.log(state.countdownValues)
+   
   },
 };

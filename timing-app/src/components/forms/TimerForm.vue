@@ -4,24 +4,37 @@
     <div class="form-container">
       <form @submit.prevent="sendTimer">
         <base-button mode="add-button" icon="fas fa-plus"></base-button>
-        <input type="text" placeholder="What?" v-model="title"/>
+        <input
+          @blur="clearForm('titleIsValid')"
+          :class="{ invalid: !titleIsValid }"
+          type="text"
+          placeholder="Tilte"
+          v-model.trim="title"
+          
+        />
 
         <div class="form-time">
           <input
+            @blur="clearForm('timeIsValid')"
+            :class="{ invalid: !timeIsValid }"
             type="text"
-            placeholder="hours?"
+            placeholder="Hours"
             class="time-input"
             v-model.number="time.hours"
           />
           <input
+            @blur="clearForm('timeIsValid')"
+            :class="{ invalid: !timeIsValid }"
             type="text"
-            placeholder="minutes?"
+            placeholder="Minutes"
             class="time-input"
             v-model.number="time.minutes"
           />
           <input
+            @blur="clearForm('timeIsValid')"
+            :class="{ invalid: !timeIsValid }"
             type="text"
-            placeholder="seconds?"
+            placeholder="Seconds"
             class="time-input"
             v-model.number="time.seconds"
           />
@@ -35,12 +48,15 @@
 export default {
   data() {
     return {
-      title: "",
+      title:  "",
       time: {
         hours: null,
         minutes: null,
         seconds: null,
       },
+      titleIsValid:true,
+      timeIsValid:true,
+      formIsValid: true,
     };
   },
   computed: {
@@ -50,23 +66,85 @@ export default {
   },
   methods: {
     sendTimer() {
-      
-      const userData = {
+      this.validateForm();
+
+      if (this.formIsValid === false) {
+        return;
+      }else{
+        const userData = {
         title: this.title,
         time: {
-          hours:this.time.hours,
-          minutes:this.time.minutes,
-          seconds:this.time.seconds
+          hours: this.time.hours,
+          minutes: this.time.minutes,
+          seconds: this.time.seconds,
         },
         userId: this.user,
       };
-      
+
       this.$store.dispatch("timers/addTimer", userData);
-      this.$router.push({name: 'timers'})
+      this.$router.push({ name: "timers" });
       this.title = "";
-      this.time.hours = null
-      this.time.minutes = null
-      this.time.seconds = null
+      this.time.hours = null;
+      this.time.minutes = null;
+      this.time.seconds = null;
+      }
+
+     
+    },
+    validateForm() {
+      this.formIsValid = true;
+      
+      if (this.title === "") {
+        this.titleIsValid = false;
+        this.formIsValid = false;
+        console.log("title is invalid");
+      }
+      if (!this.time.hours ) {
+        this.timeIsValid= false;
+        this.formIsValid = false;
+      }
+      if (!this.time.minutes  ) {
+        this.timeIsValid = false;
+        this.formIsValid = false;
+      }
+      if (!this.time.seconds ) {
+        this.timeIsValid = false;
+        this.formIsValid = false;
+      }
+
+      // if all the time fields are false, set form to false
+      if(!this.time.minutes && !this.time.hours && !this.time.seconds){
+        this.timeIsValid = false;
+        this.formIsValid = false;
+        
+      }
+      // if minutes is false, remplace by 0, same for secs and hours
+      else{
+        if(!this.time.minutes){
+          this.time.minutes =0;
+        }
+
+        if(!this.time.seconds){
+          this.time.seconds =0;
+        }
+
+        if(!this.time.hours){
+          this.time.hours =0;
+        }
+        // if secs, hours, mins are under 0, false
+        if(this.time.minutes<0 || this.time.hours<0 || this.time.seconds<0){
+          this.timeIsValid = false;
+          this.formIsValid = false;
+        }
+        else{
+          this.timeIsValid = true;
+          this.formIsValid = true;
+        }
+      }
+    },
+    clearForm(input) {
+      this[input] = true;
+      this.formIsValid = true;
     },
   },
 };
@@ -81,6 +159,10 @@ export default {
 
 form {
   width: 400px;
+}
+
+.create-timer-container{
+    margin-top: 30px;
 }
 
 form input,
@@ -104,5 +186,10 @@ form textarea {
 }
 .time-input {
   width: 25%;
+}
+
+input.invalid,
+textarea.invalid {
+  border: 2px solid #bd0a0a;
 }
 </style>

@@ -4,8 +4,8 @@
       <base-button icon="fas fa-trash-alt" mode="delete-note"></base-button>
       <input type="hidden" name="collection" value="list" />
     </form>
-    <h3>{{ title }}</h3>
-    <h4>{{ content }}</h4>
+    <h3>{{ itemTitle }}</h3>
+    <h4>{{ itemContent }}</h4>
 
     <!-- <h3><%=(foundListItem.title).length < 20 ? foundListItem.title : (foundListItem.title).substr(0, 20) + " ..."  %></h3> -->
     <!-- <h4><%=(foundListItem.content).length < 90 ? foundListItem.content : (foundListItem.content).substr(0, 90) + " ..." %></h4> -->
@@ -14,6 +14,7 @@
 </template>
 
 <script>
+var _ = require('lodash')
 export default {
   emits: ["unmount"],
   props: ["id", "content", "title"],
@@ -27,6 +28,14 @@ export default {
       this.$emit("loadNotes");
     }
   },
+  computed:{
+    itemTitle(){
+      return this.title.length < 25 ? _.capitalize(this.title)  : (_.capitalize(this.title)).substr(0, 25) + '...'
+    },
+    itemContent(){
+      return this.content.length < 50 ? _.capitalize(this.content)  : (_.capitalize(this.content)).substr(0, 50) + '...'
+    }
+  }
 };
 </script>
 

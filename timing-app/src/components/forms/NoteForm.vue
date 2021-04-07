@@ -5,9 +5,17 @@
       <form @submit.prevent="sendNote">
         <base-button mode="add-button" icon="fas fa-plus"></base-button>
 
-        <input type="text" placeholder="Title" v-model="title" />
+        <input
+          :class="{ invalid: !titleIsValid }"
+          type="text"
+          placeholder="Title"
+          v-model.trim="title"
+          @blur="clearValidity('titleIsValid')"
+        />
         <textarea
-          v-model="content"
+          :class="{ invalid: !contentIsValid }"
+          @blur="clearValidity('contentIsValid')"
+          v-model.trim="content"
           type="text"
           placeholder="Content"
           rows="3"
@@ -18,11 +26,15 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
       title: "",
       content: "",
+      formIsValid: true,
+      contentIsValid: true,
+      titleIsValid: true,
     };
   },
   computed: {
@@ -32,15 +44,39 @@ export default {
   },
   methods: {
     sendNote() {
+      this.validateForm();
+
+      console.log(this.formIsValid);
+
+      if (!this.formIsValid) {
+        console.log("cannot submit");
+        return;
+      }
+
       this.$store.dispatch("notes/addNote", {
         title: this.title,
         content: this.content,
-        userId:this.user
+        userId: this.user,
       });
-      this.$router.push({name: 'notes'})
+      this.$router.replace({ name: "notes" });
+
       this.title = "";
       this.content = "";
-      
+    },
+    validateForm() {
+      this.formIsValid = true;
+      if (this.title === "") {
+        this.titleIsValid = false;
+        this.formIsValid = false;
+      }
+      if (this.content === "") {
+        this.contentIsValid = false;
+        this.formIsValid = false;
+      }
+    },
+    clearValidity(input) {
+      this[input] = true;
+      this.formIsValid = true;
     },
   },
 };
@@ -50,6 +86,10 @@ export default {
 .form-container {
   display: flex;
   justify-content: center;
+  margin-top: 30px;
+}
+
+.create-notes-container {
   margin-top: 30px;
 }
 
@@ -69,5 +109,9 @@ form textarea {
   font-family: "Open Sans", sans-serif;
   font-size: 1.1rem;
   resize: none;
+}
+input.invalid,
+textarea.invalid {
+  border: 2px solid #bd0a0a;
 }
 </style>

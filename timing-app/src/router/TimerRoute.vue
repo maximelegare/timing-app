@@ -19,6 +19,7 @@
 
 
 <script>
+
 import BaseSpinner from "../components/ui/BaseSpinner.vue";
 import gsap from "gsap";
 import TimerItem from "../components/items/TimerItem.vue";
@@ -72,6 +73,7 @@ export default {
 
 <style scoped>
 .items-section {
+  margin-top: 20px;
   width: 100%;
   display: flex;
   flex-wrap: wrap;

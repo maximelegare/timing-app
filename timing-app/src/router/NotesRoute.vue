@@ -68,10 +68,12 @@ export default {
 
 <style scoped>
 .items-section {
+  margin-top: 20px;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
   margin-bottom: 60px;
 }
+
 </style>

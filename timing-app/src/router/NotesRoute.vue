@@ -3,7 +3,7 @@
     <item-header-line route="note-route"></item-header-line>
   </transition>
   <base-spinner v-if="isLoading"></base-spinner>
-  <div v-if="!isLoading" class="items-section">
+  <div v-if="!isLoading && isAuth" class="items-section">
     <p v-if="!hasNotes">No note were found. Start adding some now!</p>
     <note-item @loadNotes="loadNotes"
       v-for="item in notes"
@@ -39,6 +39,9 @@ export default {
     hasNotes() {
       return this.$store.getters["notes/hasNotes"];
     },
+    isAuth(){
+      return this.$store.getters.isAuthenticated
+    }
   },
   created() {
     this.loadNotes();
@@ -55,10 +58,12 @@ export default {
     },
     async loadNotes() {
       this.isLoading = true;
-      try {
-        await this.$store.dispatch("notes/loadNotes");
-      } catch (error) {
-        this.error = error.message || "something went wrong!";
+      if(this.isAuth){
+        try {
+          await this.$store.dispatch("notes/loadNotes");
+        } catch (error) {
+          this.error = error.message || "something went wrong!";
+        }
       }
       this.isLoading = false;
     },

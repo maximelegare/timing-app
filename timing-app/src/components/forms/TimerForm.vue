@@ -3,7 +3,7 @@
     <h2>Timer item</h2>
     <div class="form-container">
       <form @submit.prevent="sendTimer">
-        <base-button mode="add-button" icon="fas fa-plus"></base-button>
+        <base-button mode="add-item" icon="fas fa-plus"></base-button>
         <input
           @blur="clearForm('titleIsValid')"
           :class="{ invalid: !titleIsValid }"

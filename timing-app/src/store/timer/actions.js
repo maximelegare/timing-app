@@ -1,6 +1,7 @@
 export default {
   async addTimer(context, payload) {
     const userId = context.rootGetters.userId;
+    const token = context.rootGetters.token
     const timer = {
       title: payload.title,
       time: {
@@ -14,7 +15,7 @@ export default {
     };
     
     const response = await fetch(
-      `https://timing-app-7c35b-default-rtdb.firebaseio.com/${userId}/timers.json`,
+      `https://timing-app-7c35b-default-rtdb.firebaseio.com/users/${userId}/timers.json?auth=` +token,
       {
         method: "POST",
         body: JSON.stringify(timer),
@@ -32,9 +33,10 @@ export default {
 
   async loadTimers(context) {
     const userId = context.rootGetters.userId;
+    const token = context.rootGetters.token
 
     const response = await fetch(
-      `https://timing-app-7c35b-default-rtdb.firebaseio.com/${userId}/timers.json`
+      `https://timing-app-7c35b-default-rtdb.firebaseio.com/users/${userId}/timers.json?auth=` + token
     );
     const responseData = await response.json();
 
@@ -74,7 +76,7 @@ export default {
     const timerId = payload;
     
     const response = await fetch(
-      `https://timing-app-7c35b-default-rtdb.firebaseio.com/${userId}/timers/${timerId}.json`,
+      `https://timing-app-7c35b-default-rtdb.firebaseio.com/users/${userId}/timers/${timerId}.json`,
       {
         method: "DELETE",
       }
@@ -105,7 +107,7 @@ export default {
 
     
     const response = await fetch(
-      `https://timing-app-7c35b-default-rtdb.firebaseio.com/${userId}/timers/${timerId}/time.json`,
+      `https://timing-app-7c35b-default-rtdb.firebaseio.com//users${userId}/timers/${timerId}/time.json`,
       {
         method: "PUT",
         body: JSON.stringify(timerValues),

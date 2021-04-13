@@ -1,5 +1,6 @@
 <template>
   <div>
+    <auth-form></auth-form>
     <the-header></the-header>
     <div class="body-container">
       <form-section></form-section>
@@ -16,15 +17,18 @@
 <script>
 import ItemsHeader from "./components/layout/ItemsHeader";
 import FormSection from "./components/forms/FormSection.vue";
-
 import TheHeader from "./components/layout/TheHeader.vue";
+import AuthForm from './components/forms/AuthForm.vue';
 export default {
   components: {
     TheHeader,
     FormSection,
     ItemsHeader,
-    
+    AuthForm,
   },
+  mounted(){
+    this.$store.dispatch('tryLogin')
+  }
   
 };
 </script>
@@ -72,7 +76,7 @@ h1 {
   font-weight: 500;
   color: white;
   font-size: 2.5rem;
-  margin-left: 35px;
+  
 }
 
 h2 {
@@ -86,12 +90,12 @@ h2 {
 h3 {
   font-family: "Open Sans", sans-serif;
   font-weight: 400;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: rgb(129, 127, 127);
 }
 
 h4 {
-  font-size: 1.3rem;
+  font-size: 1.1rem;
   font-weight: 400;
   font-family: "Open Sans", sans-serif;
   color: rgb(160, 160, 147);
@@ -101,7 +105,12 @@ p{
   font-family: "Open Sans", sans-serif;
     font-size: 1rem;
     color: rgb(160, 160, 147);
+}
 
+label{
+ font-family: "Comfortaa", cursive;
+ color: rgb(83, 70, 70);
+ font-size: 1.1rem;
 }
 button{
    font-family: "Open Sans", sans-serif;

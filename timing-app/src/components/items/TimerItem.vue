@@ -100,6 +100,7 @@ export default {
     userLoggedIn() {
       return this.$store.getters.userId;
     },
+    
   },
   methods: {
     async timerRequestDB() {
@@ -119,7 +120,7 @@ export default {
       };
 
       const response = await fetch(
-        `https://timing-app-7c35b-default-rtdb.firebaseio.com/${userId}/timers/${timerId}/time.json`,
+        `https://timing-app-7c35b-default-rtdb.firebaseio.com/users/${userId}/timers/${timerId}/time.json`,
         {
           method: "PUT",
           body: JSON.stringify(timerValues),
@@ -197,6 +198,7 @@ export default {
     },
 
     deleteTimer() {
+      console.log('clicked')
       this.$store.dispatch("timers/deleteTimer", this.id);
     },
   },

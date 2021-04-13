@@ -3,7 +3,7 @@
     <h2>Note item</h2>
     <div class="form-container">
       <form @submit.prevent="sendNote">
-        <base-button mode="add-button" icon="fas fa-plus"></base-button>
+        <base-button mode="add-item" icon="fas fa-plus"></base-button>
 
         <input
           :class="{ invalid: !titleIsValid }"

@@ -3,7 +3,7 @@
     <item-header-line route="timer-route"></item-header-line>
   </transition>
   <base-spinner v-if="isLoading"></base-spinner>
-  <div class="items-section" v-if="!isLoading">
+  <div class="items-section" v-if="!isLoading && isAuth">
     <p v-if="!hasTimers">No timer were found. Start adding some now!</p>
     <timer-item @loadTimers="loadTimers"
       v-for="item in timers"
@@ -43,6 +43,10 @@ export default {
     hasTimers() {
       return this.$store.getters["timers/hasTimers"];
     },
+    isAuth(){
+      return this.$store.getters.isAuthenticated
+    }
+
   },
   created() {
     this.loadTimers();
@@ -59,11 +63,12 @@ export default {
     },
     async loadTimers() {
       this.isLoading = true;
-      
-      try {
-        await this.$store.dispatch("timers/loadTimers");
-      } catch (error) {
-        this.err = error.message || "something went wrong!";
+      if(this.isAuth){
+        try {
+          await this.$store.dispatch("timers/loadTimers");
+        } catch (error) {
+          this.err = error.message || "something went wrong!";
+        }
       }
       this.isLoading = false;
     },

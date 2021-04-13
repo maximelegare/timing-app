@@ -1,18 +1,22 @@
 export default {
   async addNote(context, payload) {
     const userId = context.rootGetters.userId;
+    const token = context.rootGetters.token
     const noteData = {
       userId: userId,
       title: payload.title,
       content: payload.content,
     };
-    const response = await fetch(
-      `https://timing-app-7c35b-default-rtdb.firebaseio.com/${userId}/notes.json`,
-      {
-        method: "POST",
-        body: JSON.stringify(noteData),
-      }
-    );
+    
+      const response = await fetch(
+        `https://timing-app-7c35b-default-rtdb.firebaseio.com/users/${userId}/notes.json?auth=` + token,
+        {
+          method: "POST",
+          body: JSON.stringify(noteData),
+        }
+      );
+    
+   
     const responseData = await response.json();
 
     if (!response.ok) {
@@ -24,8 +28,9 @@ export default {
 
   async loadNotes(context) {
     const userId = context.rootGetters.userId;
+    const token = context.rootGetters.token
     const response = await fetch(
-      `https://timing-app-7c35b-default-rtdb.firebaseio.com/${userId}/notes.json`
+      `https://timing-app-7c35b-default-rtdb.firebaseio.com/users/${userId}/notes.json?auth=` + token
     );
 
     const responseData = await response.json();
@@ -54,7 +59,7 @@ export default {
     const noteId = payload;
     console.log(noteId);
     const response = await fetch(
-      `https://timing-app-7c35b-default-rtdb.firebaseio.com/${userId}/notes/${noteId}.json`,
+      `https://timing-app-7c35b-default-rtdb.firebaseio.com/users/${userId}/notes/${noteId}.json`,
       {
         method: "DELETE",
       }

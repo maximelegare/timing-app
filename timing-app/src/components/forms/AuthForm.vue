@@ -1,15 +1,34 @@
 <template>
-  <base-dialog :show="!isAuth" :title="dialogTitle">
+  <base-dialog :show="!isAuth || !!error" :title="dialogTitle">
     <template #section>
       <div class="form-container">
         <form @submit.prevent="sendAuthData">
           <div class="form-control">
+            <!-- <p :show="!!error">{{ error }}</p> -->
             <h4>Email Address</h4>
-            <input type="email" placeholder="Email" v-model="email" />
+            <input type="email" placeholder="Email" v-model.trim="email" :class="{invalid : !emailIsValid}" @blur="clearValidity('emailIsValid')"/>
+            <p class="invalid" v-if="!emailIsValid">Please change your email address or try again later. </p>
           </div>
           <div class="form-control">
+            
             <h4>Password</h4>
-            <input type="password" placeholder="Password" v-model="password" />
+            <input
+              type="password"
+              placeholder="Password"
+              v-model.trim="password"
+              :class="{invalid : !passwordIsValid}"
+              @blur="clearValidity('passwordIsValid')"
+            />
+            <input
+              v-if="signUp"
+              type="password"
+              placeholder="Confirm Password"
+              v-model.trim="passwordValidation"
+              class="validation-password"
+              :class="{invalid : !passwordIsValid}"
+              @blur="clearValidity('passwordIsValid')"
+            />
+            <p class="invalid" v-if="!passwordIsValid">Your password must have at least 6 characters.</p>
           </div>
           <!-- <h4 v-if="signUp">Confirm Password</h4>
           <input type="password"  placeholder="Confirm Password"/> -->
@@ -31,6 +50,9 @@
         </form>
       </div>
     </template>
+    <!-- <div v-if="!!error">
+      <p>{{ error }}</p>
+    </div> -->
   </base-dialog>
   <div class="input-container"></div>
 </template>
@@ -48,6 +70,11 @@ export default {
       login: false,
       email: "",
       password: "",
+      passwordValidation:'',
+      emailIsValid: true,
+      passwordIsValid: true,
+      formIsValid: true,
+      error :null
     };
   },
   methods: {
@@ -66,37 +93,64 @@ export default {
       this.login = !this.login;
       this.signUp = !this.signUp;
     },
+    clearValidity(input){
+      this[input] = true
+      this.formIsValid = true
+    },
 
     async sendAuthData() {
-      const route = this.$route.path;
-
-      console.log(route);
-      try {
-        if (this.signUp === true) {
-          await this.$store.dispatch("signUp", {
-            email: this.email,
-            password: this.password,
-          });
-        //   this.$router.push("/timers");
-        } else {
-          await this.$store.dispatch("login", {
-            email: this.email,
-            password: this.password,
-          });
-        //   this.$router.push("/timers");
+      this.validateForm()
+      console.log('passedValidation')
+      if(this.formIsValid === false){
+        return
+      }else{
+        try {
+          if (this.signUp === true) {
+            await this.$store.dispatch("signUp", {
+              email: this.email,
+              password: this.password,
+            });
+          } else if (this.login === true) {
+            await this.$store.dispatch("login", {
+              email: this.email,
+              password: this.password,
+            });
+          }
+        } catch (error) {
+          this.formIsValid = false
+          this.emailIsValid = false 
+          this.error = error.message || 'Something went wrong!';
+          
         }
-
-
-      } catch (error) {
-        this.error = error.message || "Something went wrong!";
+        this.$router.replace("/timers");
+        this.email = "";
+        this.password = "";
+        this.showDialog = false;
+        this.login = false;
+        this.signUp = false;
       }
-    this.$router.replace('/notes')
-      this.email = "";
-      this.password = "";
-      this.showDialog = false;
-      this.login = false;
-      this.signUp = false;
     },
+
+    validateForm(){
+      if (this.email === "" || !this.email.includes("@")) {
+        this.formIsValid = false;
+        this.emailIsValid = false;
+        
+      }
+      if (this.signUp ===true) {
+        if(this.password ==='' || this.password.length < 6 || this.password !== this.passwordValidation){
+           this.formIsValid = false
+          this.passwordIsValid = false
+          console.log('error password')
+        } 
+      }else if(this.password ==='' || this.password.length < 6){
+        this.formIsValid = false
+          this.passwordIsValid = false
+      }
+      console.log(this.passwordIsValid)
+      console.log(this.formIsValid)
+      console.log(this.emailIsValid)
+    }
   },
 
   computed: {
@@ -109,7 +163,7 @@ export default {
     },
     dialogMainButton() {
       if (this.signUp === true) {
-        return "Sign Up";
+        return "Create your account";
       } else {
         return "Login";
       }
@@ -124,22 +178,25 @@ export default {
     isAuth() {
       return this.$store.getters.isAuthenticated;
     },
-    token(){
-        return this.$store.getters.token
+    token() {
+      return this.$store.getters.token;
+    },
+  },
+  watch: {
+    async token(newVal) {
+      const route = this.$route.path;
+      if (newVal !== null && newVal !== undefined && this.isAuth) {
+        if (route === "/timers") {
+          await this.$store.dispatch("timers/loadTimers");
+        } else if (route === "/notes") {
+          await this.$store.dispatch("notes/loadNotes");
+        }
+      }
+    },
+    error(newVal){
+      console.log(newVal)
     }
   },
-  watch:{
-     async token(newVal){
-          const route = this.$route.path
-         if(newVal !==null && newVal !== undefined && this.isAuth){
-            if(route === '/timers'){
-          await  this.$store.dispatch('timers/loadTimers')
-        }else if(route === '/notes'){
-           await this.$store.dispatch('notes/loadNotes')
-        }
-         }
-      }
-  }
 };
 </script>
 
@@ -167,10 +224,10 @@ export default {
 }
 .form-control {
   width: 100%;
-}
-.form-control {
   margin: 30px 0 30px 0;
+  text-align: center;
 }
+
 form {
   width: 400px;
 }
@@ -195,4 +252,15 @@ h4 {
   /* font-size: 1rem; */
   /* color: rgb(83, 70, 70); */
 }
+input.invalid{
+  border: 2px solid #bd0a0a;
+}
+p.invalid{
+  color: #bd0a0a;
+  margin-top: 10px;
+}
+.validation-password{
+  margin-top: 15px;
+}
+
 </style>

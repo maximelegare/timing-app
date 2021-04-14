@@ -12,6 +12,7 @@
           v-model.trim="title"
           @blur="clearValidity('titleIsValid')"
         />
+        <p class="invalid" v-if="!titleIsValid">You must enter a Title</p>
         <textarea
           :class="{ invalid: !contentIsValid }"
           @blur="clearValidity('contentIsValid')"
@@ -20,6 +21,7 @@
           placeholder="Content"
           rows="3"
         ></textarea>
+        <p class="invalid" v-if="!contentIsValid">You must enter some content</p>
       </form>
     </div>
   </div>
@@ -113,5 +115,11 @@ form textarea {
 input.invalid,
 textarea.invalid {
   border: 2px solid #bd0a0a;
+}
+p.invalid{
+  color:#bd0a0a;
+  margin-bottom: 20px;
+  margin-top: -5px;
+  text-align: center;
 }
 </style>

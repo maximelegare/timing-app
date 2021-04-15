@@ -8,7 +8,7 @@
           @blur="clearForm('titleIsValid')"
           :class="{ invalid: !titleIsValid }"
           type="text"
-          placeholder="Tilte"
+          placeholder="Title"
           v-model.trim="title"
         />
         <p v-if="!titleIsValid" class="invalid">You must enter a title</p>

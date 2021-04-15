@@ -47,7 +47,7 @@ export default {
       gsap.from(el, {
         opacity: 0,
         duration: 0.7,
-        y: -150,
+        y: 15,
       }),
         done();
     },

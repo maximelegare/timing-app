@@ -3,5 +3,8 @@ export default {
         state.token = payload.token
         state.userId = payload.userId
         state.userEmail = payload.userEmail
-    }
+    },
+    // setError(state, payload){
+    //     state.error = payload
+    // }
 };

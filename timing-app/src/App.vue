@@ -1,13 +1,16 @@
 <template>
   <div>
-    <auth-form></auth-form>
     <the-header></the-header>
     <div class="body-container">
       <form-section></form-section>
       <div class="notes-container">
         <items-header></items-header>
         <div class="items-section">
-          <router-view></router-view>
+          <router-view v-slot="slotProps">
+            <transition name="route" mode="out-in">
+              <component :is="slotProps.Component"></component>
+            </transition>
+          </router-view>
         </div>
       </div>
     </div>
@@ -18,18 +21,16 @@
 import ItemsHeader from "./components/layout/ItemsHeader";
 import FormSection from "./components/forms/FormSection.vue";
 import TheHeader from "./components/layout/TheHeader.vue";
-import AuthForm from './components/forms/AuthForm.vue';
+
 export default {
   components: {
     TheHeader,
     FormSection,
     ItemsHeader,
-    AuthForm,
   },
-  mounted(){
-    this.$store.dispatch('tryLogin')
-  }
-  
+  mounted() {
+    this.$store.dispatch("tryLogin");
+  },
 };
 </script>
 
@@ -64,8 +65,6 @@ body {
   box-shadow: 0px 3px 3px rgba(145, 145, 145, 0.404);
 }
 
-
-
 ol,
 ul {
   list-style: none;
@@ -76,7 +75,6 @@ h1 {
   font-weight: 500;
   color: white;
   font-size: 2.5rem;
-  
 }
 
 h2 {
@@ -101,20 +99,50 @@ h4 {
   color: rgb(160, 160, 147);
   line-height: 1.3;
 }
-p{
+p {
   font-family: "Open Sans", sans-serif;
-    font-size: 1rem;
-    color: rgb(160, 160, 147);
+  font-size: 1rem;
+  color: rgb(160, 160, 147);
 }
 
-label{
- font-family: "Comfortaa", cursive;
- color: rgb(83, 70, 70);
- font-size: 1.1rem;
+label {
+  font-family: "Comfortaa", cursive;
+  color: rgb(83, 70, 70);
+  font-size: 1.1rem;
 }
-button{
-   font-family: "Open Sans", sans-serif;
+button {
+  font-family: "Open Sans", sans-serif;
 }
+
+
+/* ////////////////////////////
+///////ROUTER-ANIMATION///////
+///////////////////////////// */
+
+
+.route-enter-from{
+opacity: 0;
+transform: translateY(-10px);
+}
+.route-leave-to{
+opacity: 0;
+transform: translateY(-10px);
+}
+
+.route-enter-active{
+transition:all 0.3s ease-out
+}
+.route-leave-active{
+transition:all 0.3s ease-in
+}
+
+.router-enter-to,
+.router-leave-from{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
 
 @media (max-width: 800px) {
   a,

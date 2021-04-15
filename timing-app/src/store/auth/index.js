@@ -9,7 +9,8 @@ export default{
             token:null,
             userId:null,
             userEmail:null,
-            expiration:null
+            expiration:null,
+            // error:null
         }
     },
     actions,

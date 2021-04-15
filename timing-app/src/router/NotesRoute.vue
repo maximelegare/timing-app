@@ -1,17 +1,20 @@
 <template>
-  <transition @enter="enter" appear>
-    <item-header-line route="note-route"></item-header-line>
-  </transition>
-  <base-spinner v-if="isLoading"></base-spinner>
-  <div v-if="!isLoading && isAuth" class="items-section">
-    <p v-if="!hasNotes">No note were found. Start adding some now!</p>
-    <note-item @loadNotes="loadNotes"
-      v-for="item in notes"
-      :key="item.id"
-      :id="item.id"
-      :title="item.title"
-      :content="item.content"
-    ></note-item>
+  <div>
+    <transition @enter="enter" appear>
+      <item-header-line route="note-route"></item-header-line>
+    </transition>
+    <base-spinner v-if="isLoading"></base-spinner>
+    <div v-if="!isLoading && isAuth" class="items-section">
+      <p v-if="!hasNotes">No note were found. Start adding some now!</p>
+      <note-item
+        @loadNotes="loadNotes"
+        v-for="item in notes"
+        :key="item.id"
+        :id="item.id"
+        :title="item.title"
+        :content="item.content"
+      ></note-item>
+    </div>
   </div>
 </template>
 
@@ -28,10 +31,10 @@ export default {
   },
   data() {
     return {
-      isLoading: false
+      isLoading: false,
     };
   },
- 
+
   computed: {
     notes() {
       return this.$store.getters["notes/notes"];
@@ -39,9 +42,9 @@ export default {
     hasNotes() {
       return this.$store.getters["notes/hasNotes"];
     },
-    isAuth(){
-      return this.$store.getters.isAuthenticated
-    }
+    isAuth() {
+      return this.$store.getters.isAuthenticated;
+    },
   },
   created() {
     this.loadNotes();
@@ -58,7 +61,7 @@ export default {
     },
     async loadNotes() {
       this.isLoading = true;
-      if(this.isAuth){
+      if (this.isAuth) {
         try {
           await this.$store.dispatch("notes/loadNotes");
         } catch (error) {
@@ -80,5 +83,4 @@ export default {
   justify-content: space-evenly;
   margin-bottom: 60px;
 }
-
 </style>

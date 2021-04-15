@@ -4,19 +4,25 @@
       <div class="form-container">
         <form @submit.prevent="sendAuthData">
           <div class="form-control">
-            <!-- <p :show="!!error">{{ error }}</p> -->
             <h4>Email Address</h4>
-            <input type="email" placeholder="Email" v-model.trim="email" :class="{invalid : !emailIsValid}" @blur="clearValidity('emailIsValid')"/>
-            <p class="invalid" v-if="!emailIsValid">Please change your email address or try again later. </p>
+            <input
+              type="email"
+              placeholder="Email"
+              v-model.trim="email"
+              :class="{ invalid: !emailIsValid }"
+              @blur="clearValidity('emailIsValid')"
+            />
+            <p class="invalid" v-if="!emailIsValid">
+              Please change your email address or try again later.
+            </p>
           </div>
           <div class="form-control">
-            
             <h4>Password</h4>
             <input
               type="password"
               placeholder="Password"
               v-model.trim="password"
-              :class="{invalid : !passwordIsValid}"
+              :class="{ invalid: !passwordIsValid }"
               @blur="clearValidity('passwordIsValid')"
             />
             <input
@@ -25,10 +31,16 @@
               placeholder="Confirm Password"
               v-model.trim="passwordValidation"
               class="validation-password"
-              :class="{invalid : !passwordIsValid}"
+              :class="{ invalid: !passwordIsValid }"
               @blur="clearValidity('passwordIsValid')"
             />
-            <p class="invalid" v-if="!passwordIsValid">Your password must have at least 6 characters.</p>
+            <p class="invalid" v-if="!passwordIsValid">
+              Your password must have at least 6 characters.
+            </p>
+            <p v-if="!!error" class="invalid">
+              <!-- Something went wrong. Please try again later -->
+              {{ error }}
+            </p>
           </div>
           <!-- <h4 v-if="signUp">Confirm Password</h4>
           <input type="password"  placeholder="Confirm Password"/> -->
@@ -63,6 +75,8 @@ export default {
   components: {
     BaseDialog,
   },
+  emits: ["user-logout"],
+  props: ["userLogout"],
   data() {
     return {
       showDialog: false,
@@ -70,11 +84,11 @@ export default {
       login: false,
       email: "",
       password: "",
-      passwordValidation:'',
+      passwordValidation: "",
       emailIsValid: true,
       passwordIsValid: true,
       formIsValid: true,
-      error :null
+      error: null,
     };
   },
   methods: {
@@ -93,66 +107,87 @@ export default {
       this.login = !this.login;
       this.signUp = !this.signUp;
     },
-    clearValidity(input){
-      this[input] = true
-      this.formIsValid = true
+    clearValidity(input) {
+      this[input] = true;
+      this.formIsValid = true;
+      this.error = null
     },
 
     async sendAuthData() {
-      this.validateForm()
-      console.log('passedValidation')
-      if(this.formIsValid === false){
-        return
-      }else{
+      this.validateForm();
+      console.log("passedValidation");
+      if (this.formIsValid === false) {
+        return;
+      } else {
         try {
           if (this.signUp === true) {
-            await this.$store.dispatch("signUp", {
+            await this.$store.dispatch("auth", {
               email: this.email,
               password: this.password,
+              mode: "signUp",
             });
           } else if (this.login === true) {
-            await this.$store.dispatch("login", {
+            await this.$store.dispatch("auth", {
               email: this.email,
               password: this.password,
+              mode: "login",
             });
           }
+          this.login = false;
+          this.signUp = false;
+          this.email = "";
         } catch (error) {
-          this.formIsValid = false
-          this.emailIsValid = false 
-          this.error = error.message || 'Something went wrong!';
-          
+          this.formIsValid = false;
+          console.log(error)
+          if (error.message === "EMAIL_EXISTS") {
+            this.error =
+              "There is already an account using this email Address.";
+              this.emailIsValid = false
+              console.log(error.message)
+
+          }else if (error.message === "INVALID_PASSWORD") {
+            this.error = "The password is invalid";
+            this.passwordIsValid = false
+            
+          } else {
+            this.error = "Something went wrong!";
+          }
         }
         this.$router.replace("/timers");
-        this.email = "";
+        
         this.password = "";
+        this.passwordValidation = "";
         this.showDialog = false;
-        this.login = false;
-        this.signUp = false;
+
+        console.log(`login form: ${this.login}`);
+        console.log(`signup form: ${this.signUp}`);
+        this.$emit("user-logout", false);
       }
     },
-
-    validateForm(){
+    validateForm() {
       if (this.email === "" || !this.email.includes("@")) {
         this.formIsValid = false;
         this.emailIsValid = false;
-        
       }
-      if (this.signUp ===true) {
-        if(this.password ==='' || this.password.length < 6 || this.password !== this.passwordValidation){
-           this.formIsValid = false
-          this.passwordIsValid = false
-          console.log('error password')
-        } 
-      }else if(this.password ==='' || this.password.length < 6){
-        this.formIsValid = false
-          this.passwordIsValid = false
+      if (this.signUp === true) {
+        if (
+          this.password === "" ||
+          this.password.length < 6 ||
+          this.password !== this.passwordValidation
+        ) {
+          this.formIsValid = false;
+          this.passwordIsValid = false;
+          console.log("error password");
+        }
+      } else if (this.password === "" || this.password.length < 6) {
+        this.formIsValid = false;
+        this.passwordIsValid = false;
       }
-      console.log(this.passwordIsValid)
-      console.log(this.formIsValid)
-      console.log(this.emailIsValid)
-    }
+      // console.log(this.passwordIsValid);
+      // console.log(this.formIsValid);
+      // console.log(this.emailIsValid);
+    },
   },
-
   computed: {
     dialogTitle() {
       if (this.signUp === true) {
@@ -181,7 +216,16 @@ export default {
     token() {
       return this.$store.getters.token;
     },
+    // haveError() {
+    //   return this.$store.getters.error;
+    // },
   },
+  // userLoggedOut(){
+  //   if(this.userLogout){
+  //     return console.log('userLogout' + this.userLogout)
+  //   }
+  //   return this.login === false
+  // },
   watch: {
     async token(newVal) {
       const route = this.$route.path;
@@ -193,9 +237,18 @@ export default {
         }
       }
     },
-    error(newVal){
-      console.log(newVal)
-    }
+    error(newVal) {
+      console.log(newVal);
+    },
+    // it sets the login and signup when the user clicks on the logout button
+    userLogout(newVal) {
+      if (newVal) {
+        this.login = true;
+        this.signUp = false;
+        console.log(`login: ${this.login}`);
+        console.log(`signup: ${this.signUp}`);
+      }
+    },
   },
 };
 </script>
@@ -252,15 +305,14 @@ h4 {
   /* font-size: 1rem; */
   /* color: rgb(83, 70, 70); */
 }
-input.invalid{
+input.invalid {
   border: 2px solid #bd0a0a;
 }
-p.invalid{
+p.invalid {
   color: #bd0a0a;
   margin-top: 10px;
 }
-.validation-password{
+.validation-password {
   margin-top: 15px;
 }
-
 </style>

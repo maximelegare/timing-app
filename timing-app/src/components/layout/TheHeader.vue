@@ -1,4 +1,5 @@
 <template>
+  <auth-form :userLogout="userLogout" @user-logout="setUserLogout"></auth-form>
   <header>
     <div class="container">
       <div class="logo">
@@ -7,7 +8,7 @@
       </div>
       <div class="user-infos" v-if="isAuth">
         <h2>{{ userEmail }}</h2>
-        <base-button mode="userButton" @click="logout">
+        <base-button mode="user-button" @click="logout">
           <div class="user-button-letter"><i class="fas fa-user user"></i></div>
         </base-button>
         <!-- <base-button mode="flat" @click="logout">Logout</base-button> -->
@@ -17,7 +18,16 @@
 </template>
 
 <script>
+import AuthForm from '../forms/AuthForm.vue'
 export default {
+  data(){
+    return{
+      userLogout:false
+    }
+  },
+  components:{
+    AuthForm
+  },
   computed: {
     userEmail() {
       return this.$store.getters.userEmail;
@@ -35,8 +45,14 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("logout");
+      this.userLogout = true
     },
+    setUserLogout(){
+    this.userLogout = false
+    console.log('userLogout')
+  }
   },
+  
 };
 </script>
 

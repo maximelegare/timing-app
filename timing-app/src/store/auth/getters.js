@@ -10,5 +10,8 @@ export default {
     },
     userEmail(state){
         return state.userEmail
-    }
+    },
+    // error(state){
+    //     return state.error
+    // }
 };

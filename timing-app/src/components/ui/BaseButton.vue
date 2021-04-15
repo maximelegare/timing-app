@@ -114,28 +114,36 @@ button {
   color: rgb(160, 160, 147);
   font-size: 1rem;
 }
+
+
+.user-button {
+  border-radius: 50%;
+  /* padding: 10px 11px; */
+  width: 45px;
+  height: 45px;
+  text-align: center;
+  font-family: "Comfortaa", cursive;
+  font-weight: 600;
+  font-size: 1.4rem;
+  color: white;
+  background-color: rgb(114, 218, 204);
+  border: white 2px solid;
+}
+
+.user-button:hover,
+.start-timer:hover,
+.add-item:hover,
+.auth:hover {
+  background-color: rgb(101, 209, 195);
+}
+
 .delete-timer:hover,
 .delete-note:hover {
   background-color: #bd0a0a;
 }
 
-.userButton{
-border-radius: 50%;
-/* padding: 10px 11px; */
-width: 45px;
-height: 45px;
-text-align: center;
-font-family: "Comfortaa", cursive;
-font-weight: 600;
-font-size: 1.4rem;
-color: white;
-background-color: rgb(114, 218, 204);
-border: white 2px solid;
-}
-.userButton:hover{
-  background-color: rgb(95, 189, 176);
+.auth-flat:hover{
+  background-color: rgb(245, 244, 243);
 }
 
-.add-button {
-}
 </style>

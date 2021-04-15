@@ -1,18 +1,18 @@
 export default {
-  signUp(context, payload) {
-    const data = {
-      ...payload,
-      mode: "signUp",
-    };
-    context.dispatch("auth", data);
-  },
-  login(context, payload) {
-    const data = {
-      ...payload,
-      mode: "login",
-    };
-    context.dispatch("auth", data);
-  },
+  // signUp(context, payload) {
+  //   const data = {
+  //     ...payload,
+  //     mode: "signUp",
+  //   };
+  //   context.dispatch("auth", data);
+  // },
+  // login(context, payload) {
+  //   const data = {
+  //     ...payload,
+  //     mode: "login",
+  //   };
+  //   context.dispatch("auth", data);
+  // },
   async auth(context, payload) {
     const API_KEY = process.env.VUE_APP_DB_FIREBASE;
 
@@ -23,10 +23,6 @@ export default {
     if (mode === "signUp") {
       url = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${API_KEY}`;
     }
-
-
-
-
     const response = await fetch(url, {
       method: "POST",
       body: JSON.stringify({
@@ -38,12 +34,27 @@ export default {
     const responseData = await response.json();
 
     if (!response.ok) {
-      const err = new Error(responseData.message || "failed to post data");
-      throw err;
+      // let errorMessage
+
+      // if (responseData.error.message === "EMAIL_EXISTS") {
+      //   errorMessage = "There is already an account using this email Address.";
+      // }
+      // if (responseData.error.message === "INVALID_PASSWORD")
+      //   errorMessage = "The password is invalid";
+
+      const error = new Error(
+        // errorMessage
+        responseData.error.message 
+      );
+
+      
+      // context.commit("setError", errorMessage);
+
+      throw error;
+      // console.log(responseData.error.message);
     }
 
-    
-    context.commit('notes/loadNotes')
+    context.commit("notes/loadNotes");
     context.commit("setUser", {
       userId: responseData.localId,
       userEmail: responseData.email,
@@ -52,19 +63,19 @@ export default {
 
     localStorage.setItem("token", responseData.idToken);
     localStorage.setItem("userId", responseData.localId);
-    localStorage.setItem('userEmail', responseData.email);
+    localStorage.setItem("userEmail", responseData.email);
     // localStorage.setItem('tokenExpiration', responseData.)
   },
   tryLogin(context) {
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
-    const userEmail = localStorage.getItem('userEmail')
+    const userEmail = localStorage.getItem("userEmail");
 
     if (token && userId) {
       context.commit("setUser", {
         token: token,
         userId: userId,
-        userEmail: userEmail
+        userEmail: userEmail,
       });
     }
   },

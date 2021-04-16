@@ -44,7 +44,9 @@ export default {
   },
   methods: {
     logout() {
+      this.$store.dispatch('form/setFormVisibility', false)
       this.$store.dispatch("logout");
+      this.$router.push('notes')
       this.userLogout = true
     },
     setUserLogout(){
@@ -106,5 +108,7 @@ header {
   display: flex;
   align-items: center;
   box-shadow: 0px 3px 3px rgba(145, 145, 145, 0.562);
+  position: fixed;
+  z-index: 10;
 }
 </style>

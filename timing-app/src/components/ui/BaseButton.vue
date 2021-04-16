@@ -35,10 +35,9 @@ button {
   font-weight: 400;
   font-size: 1.5rem;
   padding: 11px 15px;
-  margin: 0 5px;
+  /* margin: 0 5px; */
   background-color: rgb(114, 218, 204);
-  margin-left: 390px;
-  margin-top: 35px;
+  
 }
 
 .delete-timer {
@@ -46,7 +45,7 @@ button {
   font-size: 1.3rem;
   border: white 2px solid;
   background-color: #e2e1dc;
-  margin-left: 375px;
+  margin-left: 360px;
   margin-top: -125px;
   position: absolute;
   color: white;
@@ -65,7 +64,7 @@ button {
 }
 
 .start-timer {
-  margin-left: 269px;
+  margin-left: 250px;
   border-radius: 0 0 7px 7px;
   padding: 6px 15px;
   background-color: rgb(114, 218, 204);
@@ -85,6 +84,16 @@ button {
   color: rgb(83, 70, 70);
 }
 
+.close-form{
+  font-size: 1.7rem;
+  border-radius: 50%;
+  color: #bd0a0a;
+  /* border: 2px solid  #bd0a0a; */
+  background-color:transparent;
+  box-shadow: none;
+  
+}
+
 .text-only {
   padding: 7px 11px;
   border: 2px rgb(255, 255, 255) solid;
@@ -93,6 +102,17 @@ button {
   font-size: 1rem;
   box-shadow: none;
   border-radius: 5px;
+}
+
+.text-only-white{
+  padding: 7px 11px;
+  border: 2px rgb(255, 255, 255) solid;
+  background-color: transparent;
+  color: rgb(114, 218, 204);
+  font-size: 1.2rem;
+  box-shadow: none;
+  border-radius: 5px;
+  position: absolute;
 }
 
 .auth {
@@ -140,6 +160,10 @@ button {
 .delete-timer:hover,
 .delete-note:hover {
   background-color: #bd0a0a;
+}
+
+.text-only-white:hover{
+  color:rgb(88, 179, 166);
 }
 
 .auth-flat:hover{

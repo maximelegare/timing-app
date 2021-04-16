@@ -3,13 +3,14 @@
     <h2>Timer item</h2>
     <div class="form-container">
       <form @submit.prevent="sendTimer">
-        <base-button mode="add-item" icon="fas fa-plus"></base-button>
+        <base-button mode="add-item" icon="fas fa-plus" class="base-button"></base-button>
         <input
           @blur="clearForm('titleIsValid')"
           :class="{ invalid: !titleIsValid }"
           type="text"
           placeholder="Title"
           v-model.trim="title"
+          class="element-with-marge"
         />
         <p v-if="!titleIsValid" class="invalid">You must enter a title</p>
 
@@ -81,7 +82,7 @@ export default {
           },
           userId: this.user,
         };
-
+        // this.$store.dispatch('form/setFormVisibility', false)
         this.$store.dispatch("timers/addTimer", userData);
         this.$router.push({ name: "timers" });
         this.title = "";
@@ -153,18 +154,21 @@ export default {
 </script>
 
 <style scoped>
+
+
+
 .form-container {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+  
 }
 
 form {
   width: 400px;
 }
 
-.create-timer-container {
-  margin-top: 30px;
+h2{
+margin-bottom: 20px;
 }
 
 form input,
@@ -181,13 +185,15 @@ form textarea {
   resize: none;
 }
 
+
+
 .form-time {
   display: flex;
-  width: 105%;
   justify-content: space-between;
+  width: 100%;
 }
 .time-input {
-  width: 25%;
+  width: 30%;
 }
 
 input.invalid,
@@ -200,4 +206,42 @@ p.invalid{
   margin-top: -5px;
   text-align: center;
 }
+
+.base-button{
+  margin-left: 373px;
+  margin-top: 35px;
+}
+
+/* @media (max-width: 1120px) {
+   form{
+        width:350px;
+    }
+}
+
+
+@media (max-width: 900px) {
+   form{
+        width:100%;
+    }
+} */
+
+@media (max-width: 1120px) {
+  form{
+    width:300px
+  }
+  .base-button{
+    margin-left: 273px;
+  }
+
+}
+
+
+
+
+
+
 </style>
+
+
+
+

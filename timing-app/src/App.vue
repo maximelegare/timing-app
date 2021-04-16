@@ -1,8 +1,10 @@
 <template>
   <div>
     <the-header></the-header>
+
+    <form-section class="form-section-over"></form-section>
     <div class="body-container">
-      <form-section></form-section>
+      <form-section class="form-section"></form-section>
       <div class="notes-container">
         <items-header></items-header>
         <div class="items-section">
@@ -42,6 +44,7 @@ export default {
   font-size: 100%;
   font: inherit;
   vertical-align: baseline;
+  box-sizing: border-box;
 }
 
 body {
@@ -51,19 +54,31 @@ body {
 
 .body-container {
   display: flex;
-  width: 80%;
-  margin: 50px auto 50px auto;
+  width: 90%;
+
+  /* compensation for the header beeing fixed */
+  margin: 125px auto 50px auto;
   justify-content: space-between;
 }
 
 .notes-container {
-  width: 70%;
-  margin-left: 70px;
+  width: 105%;
+  /* margin-left: 70px; */
   min-height: 60vh;
   border-radius: 7px;
   background-color: rgb(255, 255, 255);
   box-shadow: 0px 3px 3px rgba(145, 145, 145, 0.404);
+  transition: 0.2ms all;
 }
+
+.form-section-over{
+  display: none;
+}
+
+
+/* ////////////////////////////
+/////////GENERAL-STYLING///////
+///////////////////////////// */
 
 ol,
 ul {
@@ -114,35 +129,50 @@ button {
   font-family: "Open Sans", sans-serif;
 }
 
-
 /* ////////////////////////////
 ///////ROUTER-ANIMATION///////
 ///////////////////////////// */
 
+.route-enter-from {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+.route-leave-to {
+  opacity: 0;
+  transform: translateY(-10px);
+}
 
-.route-enter-from{
-opacity: 0;
-transform: translateY(-10px);
+.route-enter-active {
+  transition: all 0.3s ease-out;
 }
-.route-leave-to{
-opacity: 0;
-transform: translateY(-10px);
-}
-
-.route-enter-active{
-transition:all 0.3s ease-out
-}
-.route-leave-active{
-transition:all 0.3s ease-in
+.route-leave-active {
+  transition: all 0.3s ease-in;
 }
 
 .router-enter-to,
-.router-leave-from{
+.router-leave-from {
   opacity: 1;
   transform: translateY(0);
 }
 
+/* ////////////////////////////
+/////////GENERAL-SCALING///////
+///////////////////////////// */
 
+/* @media (max-width: 1120px) {
+  .body-container {
+    width: 90%;
+  }
+} */
+
+@media (max-width: 900px) {
+  /* .body-container {
+    display: block;
+    width: 90%;
+    display: flex;
+    flex-direction: column-reverse;
+  } */
+}
 
 @media (max-width: 800px) {
   a,

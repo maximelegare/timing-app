@@ -1,4 +1,11 @@
 <template>
+  <base-button
+    v-if="!formIsVisible"
+    mode="text-only-white"
+    class="base-button"
+    @click="setForm"
+    >Add Items...</base-button
+  >
   <div :class="page" class="notes-header">
     <router-link :to="{ name: 'timers' }" class="bold" id="timerButton"
       >Timers</router-link
@@ -11,7 +18,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    setForm() {
+      this.$store.dispatch("form/setFormVisibility", true);
+    },
+  },
+  computed: {
+      formIsVisible() {
+        return this.$store.getters["form/showForm"];
+      },
+    },
+};
 </script>
 
 <style scoped>
@@ -37,5 +55,10 @@ a:hover {
 }
 a.router-link-exact-active {
   color: rgb(114, 218, 204);
+}
+
+.base-button {
+  margin-left: 20px;
+  margin-top: 30px;
 }
 </style>

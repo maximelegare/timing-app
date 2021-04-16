@@ -3,7 +3,7 @@
     <h2>Note item</h2>
     <div class="form-container">
       <form @submit.prevent="sendNote">
-        <base-button mode="add-item" icon="fas fa-plus"></base-button>
+        <base-button mode="add-item" icon="fas fa-plus" class="base-button"></base-button>
 
         <input
           :class="{ invalid: !titleIsValid }"
@@ -11,6 +11,7 @@
           placeholder="Title"
           v-model.trim="title"
           @blur="clearValidity('titleIsValid')"
+          
         />
         <p class="invalid" v-if="!titleIsValid">You must enter a Title</p>
         <textarea
@@ -60,6 +61,7 @@ export default {
         content: this.content,
         userId: this.user,
       });
+      // this.$store.dispatch('form/setFormVisibility', false)
       this.$router.replace({ name: "notes" });
 
       this.title = "";
@@ -85,14 +87,23 @@ export default {
 </script>
 
 <style scoped>
+.base-button{
+  margin-left: 373px;
+  margin-top: 35px;
+}
+
 .form-container {
   display: flex;
   justify-content: center;
-  margin-top: 30px;
 }
 
-.create-notes-container {
+/* .create-notes-container {
   margin-top: 30px;
+} */
+
+
+h2{
+margin-bottom: 20px;
 }
 
 form {
@@ -101,6 +112,7 @@ form {
 
 form input,
 form textarea {
+  /* left: 50%; */
   width: 100%;
   padding: 15px 10px;
   border: none;
@@ -111,6 +123,7 @@ form textarea {
   font-family: "Open Sans", sans-serif;
   font-size: 1.1rem;
   resize: none;
+  line-height: 1.2;
 }
 input.invalid,
 textarea.invalid {
@@ -122,4 +135,19 @@ p.invalid{
   margin-top: -5px;
   text-align: center;
 }
+
+@media (max-width: 1120px) {
+  form{
+    width:300px
+  }
+  .base-button{
+    margin-left: 273px;
+  }
+}
+
+
+
+
+
+
 </style>

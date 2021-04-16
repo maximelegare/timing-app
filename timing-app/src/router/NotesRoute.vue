@@ -6,14 +6,16 @@
     <base-spinner v-if="isLoading"></base-spinner>
     <div v-if="!isLoading && isAuth" class="items-section">
       <p v-if="!hasNotes">No note were found. Start adding some now!</p>
-      <note-item
-        @loadNotes="loadNotes"
-        v-for="item in notes"
-        :key="item.id"
-        :id="item.id"
-        :title="item.title"
-        :content="item.content"
-      ></note-item>
+      <!-- <transition-group tag="div" name="list"> -->
+        <note-item
+          @loadNotes="loadNotes"
+          v-for="item in notes"
+          :key="item.id"
+          :id="item.id"
+          :title="item.title"
+          :content="item.content"
+        ></note-item>
+      <!-- </transition-group> -->
     </div>
   </div>
 </template>
@@ -83,4 +85,29 @@ export default {
   justify-content: space-evenly;
   margin-bottom: 60px;
 }
+
+.list-enter-from{
+opacity: 0;
+transform: translateY(-10px);
+}
+.list-enter-active{
+  
+  transition: all 0.2ms ease-out;
+}
+.list-enter-to{
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+
+
+.note-list-leav-to{
+
+}
+
+
+
+
+
 </style>

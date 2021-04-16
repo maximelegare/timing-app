@@ -255,4 +255,49 @@ h3.time{
 .expired{
   color: #bd0a0a;
 }
+
+
+
+@media(max-width:1000px){
+
+    .timer-items{
+        width: 300px;
+        height: 200px;
+    }
+
+    .time-title{
+        margin-top: 20px;
+        width: 250px;
+        padding-bottom: -40px;
+    }
+
+    .timer-items-content{
+        flex-direction:column-reverse ;
+        justify-content: flex-end;
+        
+        
+        
+    }
+    .timer-items-content h3{
+        text-align: center;
+        margin-top: 10px;
+        
+    }
+
+    .timer-items button.timer-start-button{
+        margin-left: 162px;
+    }
+
+    button.delete-button.timer{
+        margin-left: 250px;
+        margin-top: -25px;
+    }
+    
+}
+
+
+
+
+
+
 </style>

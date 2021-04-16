@@ -153,7 +153,7 @@ export default {
             this.error = "Something went wrong!";
           }
         }
-        this.$router.replace("/timers");
+        this.$router.replace("notes");
         
         this.password = "";
         this.passwordValidation = "";

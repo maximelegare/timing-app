@@ -1,27 +1,46 @@
 <template>
-  <div class="timer-items" :class="{timerStarted : timerStatus, timerExpired :timerExpired}">
-    <div id="timerItemContent" class="timer-items-content" >
+  <div
+    class="timer-items"
+    :class="{ timerStarted: timerStatus, timerExpired: timerExpired }"
+  >
+    <div id="timerItemContent" class="timer-items-content">
       <h3 class="title">{{ itemTitle }}</h3>
       <!-- <base-spinner v-if="countdownValues"></base-spinner> -->
       <h3 class="time" v-if="!isLoading && !timerStatus && !expirationStatus">
         {{ timeShown }}
       </h3>
-      <h3 class="time" v-else-if="!isLoading && timerStatus && !timerExpired">
+      <h3
+        class="time countdown"
+        v-else-if="!isLoading && timerStatus && !timerExpired"
+      >
         {{ countdownValues }}
       </h3>
-      <h3 class="time expired"  v-else-if="!isLoading && timerStatus && timerExpired">EXPIRED</h3>
+      <h3
+        class="time expired"
+        v-else-if="!isLoading && timerStatus && timerExpired"
+      >
+        EXPIRED
+      </h3>
     </div>
     <form @submit.prevent="deleteTimer">
-      <base-button mode="delete-timer" icon="fas fa-trash-alt"></base-button>
+      <base-button
+        class="delete-timer-button"
+        mode="delete-timer"
+        icon="fas fa-trash-alt"
+      ></base-button>
     </form>
     <form @submit.prevent="timerRequestDB" v-if="!timerStatus">
-      <base-button text="Start Timer" mode="start-timer"></base-button>
+      <base-button
+        class="start-timer-button"
+        text="Start&nbsp;Timer"
+        mode="start-timer"
+      ></base-button>
     </form>
   </div>
 </template>
 
 <script>
-var _ = require('lodash')
+var _ = require("lodash");
 export default {
   props: ["time", "id", "title"],
   components: {
@@ -46,20 +65,18 @@ export default {
         seconds: this.time.seconds,
         startingTime: this.time.startingTime,
       };
-      
-      this.countdown(timerDBvalues);
-      
 
+      this.countdown(timerDBvalues);
     } else {
       return;
     }
-
-    
   },
 
   computed: {
-    itemTitle(){
-      return this.title.length < 25 ? _.capitalize(this.title)  : (_.capitalize(this.title)).substr(0, 25) + '...'
+    itemTitle() {
+      return this.title.length < 25
+        ? _.capitalize(this.title)
+        : _.capitalize(this.title).substr(0, 25) + "...";
     },
     countdownValues() {
       // const values = this.$store.getters["timers/countdownValues"];
@@ -78,8 +95,7 @@ export default {
           "s "
         );
       } else {
-        return 'loading...'
-
+        return "loading...";
       }
     },
 
@@ -100,7 +116,6 @@ export default {
     userLoggedIn() {
       return this.$store.getters.userId;
     },
-    
   },
   methods: {
     async timerRequestDB() {
@@ -137,7 +152,7 @@ export default {
     },
 
     countdown(payload) {
-      this.isLoading = false
+      this.isLoading = false;
 
       let hours = payload.hours;
       let minutes = payload.minutes;
@@ -198,7 +213,7 @@ export default {
     },
 
     deleteTimer() {
-      console.log('clicked')
+      console.log("clicked");
       this.$store.dispatch("timers/deleteTimer", this.id);
     },
   },
@@ -215,10 +230,19 @@ export default {
 </script>
 
 <style scoped>
+.start-timer-button {
+  margin-left: 250px;
+}
+
+.delete-timer-button {
+  margin-left: 360px;
+  margin-top: -125px;
+}
 
 .timer-items {
-  margin: 40px 10px;
+  margin: 40px 30px;
   border-left: solid 20px #e2e1dc;
+  /* border-right: solid 20px transparent; */
   width: 400px;
   height: 100px;
   background-color: rgb(240, 239, 232);
@@ -226,13 +250,14 @@ export default {
   box-shadow: 0px 4px 6px rgba(126, 126, 126, 0.404);
 }
 
-.timerStarted{
+.timerStarted {
   border-left: solid 20px rgb(114, 218, 204);
-  transition: 250ms all ;
+  transition: 250ms all;
+  border-bottom-right-radius: 7px;
 }
-.timerExpired{
+.timerExpired {
   border-left: solid 20px #bd0a0a;
-  transition: 250ms all ;
+  transition: 250ms all;
 }
 .timer-items-content {
   height: 100%;
@@ -244,60 +269,73 @@ export default {
 h3.title {
   margin-left: 10px;
   text-align: left;
-  width: 200px;
+  width: 150px;
 }
-h3.time{
+h3.time {
   margin-right: 10px;
-  text-align: right;
-  width: 200px;
+  text-align: center;
+  width: 170px;
+  /* color: white; */
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding: 10px;
+  /* background-color: rgb(182, 174, 165); */
+  border-radius: 7px;
+  /* border: rgb(194, 191, 191) solid 2px; */
 }
 
-.expired{
+.expired {
   color: #bd0a0a;
+  /* border:#bd0a0a solid 2px ; */
+  /* background-color: #bd0a0a;s */
 }
 
-
-
-@media(max-width:1000px){
-
-    .timer-items{
-        width: 300px;
-        height: 200px;
-    }
-
-    .time-title{
-        margin-top: 20px;
-        width: 250px;
-        padding-bottom: -40px;
-    }
-
-    .timer-items-content{
-        flex-direction:column-reverse ;
-        justify-content: flex-end;
-        
-        
-        
-    }
-    .timer-items-content h3{
-        text-align: center;
-        margin-top: 10px;
-        
-    }
-
-    .timer-items button.timer-start-button{
-        margin-left: 162px;
-    }
-
-    button.delete-button.timer{
-        margin-left: 250px;
-        margin-top: -25px;
-    }
+@media (max-width: 1440px) {
+  .timer-items {
+    width: 300px;
     
+  }
+
+  .start-timer-button {
+    margin-left: 150px;
+  }
+
+  .delete-timer-button {
+    margin-left: 260px;
+  }
+  h3.title {
+    text-align: center;
+    width: 250px;
+    height: 55px;
+    margin: 5px auto 0 auto;
+  }
+  h3.time{
+    margin: 0 auto ;
+    bottom: 0;
+  }
+  .timer-items-content{
+    display: block;   
+  }
+
+  @media (max-width:500px){
+    .timer-items {
+    width: 230px;
+    height: 120px; 
+  }
+  h3.title {
+   
+    width: 200px;
+    height: 55px;
+  }
+  .delete-timer-button {
+    margin-left: 190px;
+    margin-top: -145px;
+  }
+  .start-timer-button {
+    margin-left: 80px;
+  }
+
+  }
+
 }
-
-
-
-
-
-
 </style>

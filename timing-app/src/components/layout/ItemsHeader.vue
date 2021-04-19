@@ -1,5 +1,11 @@
 <template>
   <base-button
+    mode="add-item"
+    icon="fas fa-plus"
+    class="smaller-screen-add-item-button"
+    @click="setForm"
+  ></base-button>
+  <base-button
     v-if="!formIsVisible"
     mode="text-only-white"
     class="base-button"
@@ -25,10 +31,10 @@ export default {
     },
   },
   computed: {
-      formIsVisible() {
-        return this.$store.getters["form/showForm"];
-      },
+    formIsVisible() {
+      return this.$store.getters["form/showForm"];
     },
+  },
 };
 </script>
 
@@ -59,6 +65,26 @@ a.router-link-exact-active {
 
 .base-button {
   margin-left: 20px;
-  margin-top: 30px;
+  margin-top: 25px;
+  position: absolute;
+}
+
+.smaller-screen-add-item-button {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .base-button {
+    display: none;
+  }
+  .notes-header {
+    margin-top: 40px;
+  }
+  .smaller-screen-add-item-button {
+    display: block;
+    left:50% ;
+    transform: translate(-50%, -50%);
+    
+  }
 }
 </style>

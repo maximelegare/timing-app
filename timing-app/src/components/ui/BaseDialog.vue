@@ -75,11 +75,11 @@ export default {
 }
 
 dialog {
+  width: 40rem;
   transform: translate(-50%, -50%);
   position: fixed;
   top: 40vh;
   left: 50%;
-  /* width: 10vh; */
   z-index: 100;
   border-radius: 7px;
   border: none;
@@ -88,6 +88,7 @@ dialog {
   margin: 0;
   overflow: hidden;
   background-color: rgb(240, 239, 232);
+  /* width: 10vh; */
 }
 
 header {
@@ -108,10 +109,16 @@ section {
 }
 
 
-@media (min-width: 768px) {
+@media (max-width: 700px) {
   dialog {
-    /* left: calc(50% - 20rem); */
-    width: 40rem;
+    width: 30rem;
   }
+  
+}
+@media (max-width: 600px) {
+  dialog {
+    width: 25rem;
+  }
+
 }
 </style>

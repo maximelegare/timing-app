@@ -7,26 +7,34 @@
         <h1>Timing</h1>
       </div>
       <div class="user-infos" v-if="isAuth">
-        <h2>{{ userEmail }}</h2>
-        <base-button mode="user-button" @click="logout">
+        
+        <base-button mode="user-button" @click="setDropdown" class="user-button">
           <div class="user-button-letter"><i class="fas fa-user user"></i></div>
         </base-button>
         <!-- <base-button mode="flat" @click="logout">Logout</base-button> -->
+      </div>
+    </div>
+    <div class="dropdown-container" v-if="showDropdown">
+      <div class="dropdown" >
+          <h4><i class="fas fa-user"></i>&ensp;{{ userEmail }}</h4>
+          <base-button class="dropdown-button" mode="text-only-white-header"><i class="fas fa-cog"></i>&ensp;Parameters</base-button>
+          <base-button class="dropdown-button" mode="text-only-white-header" @click="logout"><i class="fas fa-sign-out-alt"></i>&ensp;logout</base-button>
       </div>
     </div>
   </header>
 </template>
 
 <script>
-import AuthForm from '../forms/AuthForm.vue'
+import AuthForm from "../forms/AuthForm.vue";
 export default {
-  data(){
-    return{
-      userLogout:false
-    }
+  data() {
+    return {
+      userLogout: false,
+      showDropdown : false
+    };
   },
-  components:{
-    AuthForm
+  components: {
+    AuthForm,
   },
   computed: {
     userEmail() {
@@ -41,40 +49,51 @@ export default {
       }
       return "";
     },
+   
+    
+    
+    
   },
   methods: {
-    logout() {
-      this.$store.dispatch('form/setFormVisibility', false)
-      this.$store.dispatch("logout");
-      this.$router.push('notes')
-      this.userLogout = true
+     setDropdown(){
+      this.showDropdown = !this.showDropdown
     },
-    setUserLogout(){
-    this.userLogout = false
-    console.log('userLogout')
-  }
+    logout() {
+      this.showDropdown = false
+      this.$store.dispatch("form/setFormVisibility", false);
+      this.$store.dispatch("logout");
+      this.$router.push("notes");
+      this.userLogout = true;
+    },
+    setUserLogout() {
+      this.userLogout = false;
+      console.log("userLogout");
+    },
   },
-  
 };
 </script>
 
 <style scoped>
+.dropdown-button{
+  display: block;
+}
+
 .user-button-letter {
   position: absolute;
   transform: translate(-24%, -45%);
   text-align: center;
 }
 
-i.user{
+
+i.user {
   font-size: 1.5rem;
 }
 
 .user-infos {
   display: flex;
   align-items: center;
-  
-  
 }
+
 .container {
   width: 100%;
   justify-content: space-between;
@@ -89,7 +108,6 @@ i.watch {
   transition: all 200ms ease;
   color: white;
 }
-
 
 .logo {
   width: 100%;
@@ -111,4 +129,34 @@ header {
   position: fixed;
   z-index: 10;
 }
+.dropdown {
+  background-color: white;
+  /* width: 150px;
+  height: 100px; */
+  position: fixed;
+  border-radius: 7px;
+  right: 30px;
+  top: 80px;
+  box-shadow: 0px 3px 3px rgba(145, 145, 145, 0.562);
+  text-align: left;
+  z-index: 300;
+}
+.dropdown::before {
+  content: "";
+  border: 12px solid transparent;
+  border-bottom-color: white;
+  position: absolute;
+  margin-top: -23px;
+  right: 20px;
+  z-index: 300;
+}
+h4 {
+  padding:9px 13px
+  /* border-bottom:solid 2px  ; */
+}
+
+.logout-button {
+  position: relative;
+}
+
 </style>

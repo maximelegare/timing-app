@@ -315,4 +315,17 @@ p.invalid {
 .validation-password {
   margin-top: 15px;
 }
+
+
+@media (max-width:700px){
+  form {
+  width: 300px;
+}
+@media (max-width: 600px) {
+ form {
+    width: 270px;
+  }
+
+}
+}
 </style>

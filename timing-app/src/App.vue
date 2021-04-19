@@ -2,7 +2,7 @@
   <div>
     <the-header></the-header>
 
-    <form-section class="form-section-over"></form-section>
+ 
     <div class="body-container">
       <form-section class="form-section"></form-section>
       <div class="notes-container">
@@ -45,6 +45,8 @@ export default {
   font: inherit;
   vertical-align: baseline;
   box-sizing: border-box;
+  /* word-break: break-all; */
+  word-wrap: break-word;
 }
 
 body {
@@ -75,6 +77,9 @@ body {
   display: none;
 }
 
+.form-section{
+  display: block;
+}
 
 /* ////////////////////////////
 /////////GENERAL-STYLING///////
@@ -120,6 +125,11 @@ p {
   color: rgb(160, 160, 147);
 }
 
+li{
+  font-family: "Open Sans", sans-serif;
+  font-size: 1rem;
+  color: rgb(160, 160, 147);
+}
 label {
   font-family: "Comfortaa", cursive;
   color: rgb(83, 70, 70);
@@ -166,12 +176,17 @@ button {
 } */
 
 @media (max-width: 900px) {
-  /* .body-container {
-    display: block;
-    width: 90%;
-    display: flex;
-    flex-direction: column-reverse;
+  .body-container {
+    /* display: block; */
+    
+    /* width: 90%; */
+    /* display: flex; */
+    /* flex-direction: column-reverse; */
+  }
+  /* .form-section{
+    display: none;
   } */
+  
 }
 
 @media (max-width: 800px) {

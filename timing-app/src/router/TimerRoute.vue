@@ -5,7 +5,7 @@
     </transition>
     <base-spinner v-if="isLoading"></base-spinner>
     <div class="items-section" v-if="!isLoading && isAuth">
-      <p v-if="!hasTimers">No timer were found. Start adding some now!</p>
+      <p v-if="!hasTimers" class="noItem">No timer were found. Start adding some now!</p>
       <timer-item
         @loadTimers="loadTimers"
         v-for="item in timers"
@@ -82,5 +82,9 @@ export default {
   flex-wrap: wrap;
   justify-content: space-evenly;
   margin-bottom: 60px;
+}
+.noItem{
+  text-align: center;
+  margin: 0 20px;
 }
 </style>

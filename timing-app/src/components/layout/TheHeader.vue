@@ -7,20 +7,33 @@
         <h1>Timing</h1>
       </div>
       <div class="user-infos" v-if="isAuth">
-        
-        <base-button mode="user-button" @click="setDropdown" class="user-button">
+        <base-button
+          mode="user-button"
+          @click="setDropdown"
+          class="user-button"
+        >
           <div class="user-button-letter"><i class="fas fa-user user"></i></div>
         </base-button>
         <!-- <base-button mode="flat" @click="logout">Logout</base-button> -->
       </div>
     </div>
-    <div class="dropdown-container" v-if="showDropdown">
-      <div class="dropdown" >
+    <div class="backdrop" @click="setDropdown" v-if="showDropdown"></div>
+    <transition name="dropdown" appear>
+      <div class="dropdown-container" v-if="showDropdown">
+        <div class="dropdown">
           <h4><i class="fas fa-user"></i>&ensp;{{ userEmail }}</h4>
-          <base-button class="dropdown-button" mode="text-only-white-header"><i class="fas fa-cog"></i>&ensp;Parameters</base-button>
-          <base-button class="dropdown-button" mode="text-only-white-header" @click="logout"><i class="fas fa-sign-out-alt"></i>&ensp;logout</base-button>
+          <base-button class="dropdown-button" mode="text-only-white-header"
+            ><i class="fas fa-cog"></i>&ensp;Parameters</base-button
+          >
+          <base-button
+            class="dropdown-button"
+            mode="text-only-white-header"
+            @click="logout"
+            ><i class="fas fa-sign-out-alt"></i>&ensp;logout</base-button
+          >
+        </div>
       </div>
-    </div>
+    </transition>
   </header>
 </template>
 
@@ -30,7 +43,7 @@ export default {
   data() {
     return {
       userLogout: false,
-      showDropdown : false
+      showDropdown: false,
     };
   },
   components: {
@@ -49,17 +62,16 @@ export default {
       }
       return "";
     },
-   
-    
-    
-    
+    didAutoLogout() {
+      return this.$store.getters.didAutoLogout;
+    },
   },
   methods: {
-     setDropdown(){
-      this.showDropdown = !this.showDropdown
+    setDropdown() {
+      this.showDropdown = !this.showDropdown;
     },
     logout() {
-      this.showDropdown = false
+      this.showDropdown = false;
       this.$store.dispatch("form/setFormVisibility", false);
       this.$store.dispatch("logout");
       this.$router.push("notes");
@@ -70,11 +82,21 @@ export default {
       console.log("userLogout");
     },
   },
+  watch: {
+    didAutoLogout(newVal) {
+      if (newVal) {
+        this.$store.dispatch("form/setFormVisibility", false);
+        this.$router.push("notes");
+        this.userLogout = true;
+        this.showDropdown = false;
+      }
+    },
+  },
 };
 </script>
 
 <style scoped>
-.dropdown-button{
+.dropdown-button {
   display: block;
 }
 
@@ -83,7 +105,6 @@ export default {
   transform: translate(-24%, -45%);
   text-align: center;
 }
-
 
 i.user {
   font-size: 1.5rem;
@@ -136,10 +157,12 @@ header {
   position: fixed;
   border-radius: 7px;
   right: 30px;
-  top: 80px;
+  margin-top: 45px;
   box-shadow: 0px 3px 3px rgba(145, 145, 145, 0.562);
   text-align: left;
   z-index: 300;
+  min-width: 200px;
+  height: 150px;
 }
 .dropdown::before {
   content: "";
@@ -151,12 +174,42 @@ header {
   z-index: 300;
 }
 h4 {
-  padding:9px 13px
+  padding: 9px 13px;
   /* border-bottom:solid 2px  ; */
 }
 
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.151);
+  z-index: 10;
+}
 .logout-button {
   position: relative;
 }
 
+.dropdown-enter-from,
+.dropdown-leave-to {
+  opacity: 0;
+  transform: translateY(-5px);
+}
+
+.dropdown-leave-active {
+  transition: 0.3s all ease-in;
+}
+.dropdown-enter-active {
+  transition: 0.3s all ease-out;
+}
+
+@media (max-width: 600px) {
+  .container {
+    margin: 0 20px;
+  }
+  .dropdown{
+    right: 10px;
+  }
+}
 </style>

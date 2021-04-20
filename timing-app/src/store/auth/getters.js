@@ -11,6 +11,9 @@ export default {
     userEmail(state){
         return state.userEmail
     },
+    didAutoLogout(state){
+        return state.didAutoLogout
+    }
     // error(state){
     //     return state.error
     // }

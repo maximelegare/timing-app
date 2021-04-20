@@ -9,7 +9,9 @@ export default{
             token:null,
             userId:null,
             userEmail:null,
-            expiration:null,
+            didAutoLogout:false
+            
+
             // error:null
         }
     },

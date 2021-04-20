@@ -12,7 +12,8 @@ export default {
 
 <style scoped>
 span {
-  position: absolute;
+  position: relative;
+  z-index: 0;
   width: 30px;
   height: 4px;
   background-color: rgb(114, 218, 204);

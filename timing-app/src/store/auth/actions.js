@@ -1,3 +1,4 @@
+let timer;
 export default {
   // signUp(context, payload) {
   //   const data = {
@@ -44,15 +45,35 @@ export default {
 
       const error = new Error(
         // errorMessage
-        responseData.error.message 
+        responseData.error.message
       );
 
-      
       // context.commit("setError", errorMessage);
 
       throw error;
       // console.log(responseData.error.message);
     }
+
+// make a new date for token expiration and store it
+    const expiresIn = +responseData.expiresIn * 1000;
+    // const expiresIn = 10000;
+
+
+    const expirationDate = new Date().getTime() + expiresIn
+
+    console.log(expirationDate)
+
+// set Data from Firebase to local storage to acces it
+    localStorage.setItem("token", responseData.idToken);
+    localStorage.setItem("userId", responseData.localId);
+    localStorage.setItem("userEmail", responseData.email);
+    localStorage.setItem("tokenExpiration", expirationDate);
+
+
+// after tokenExpire, the user is logged out
+   timer = setTimeout(function() {
+      context.dispatch("didAutoLogout");
+    }, expiresIn);
 
     context.commit("notes/loadNotes");
     context.commit("setUser", {
@@ -60,16 +81,22 @@ export default {
       userEmail: responseData.email,
       token: responseData.idToken,
     });
-
-    localStorage.setItem("token", responseData.idToken);
-    localStorage.setItem("userId", responseData.localId);
-    localStorage.setItem("userEmail", responseData.email);
-    // localStorage.setItem('tokenExpiration', responseData.)
   },
+
   tryLogin(context) {
+  // check if there is a token and a user ID in local storage, if that's the case, log the user
     const token = localStorage.getItem("token");
     const userId = localStorage.getItem("userId");
     const userEmail = localStorage.getItem("userEmail");
+    const tokenExpiration = localStorage.getItem("tokenExpiration")
+
+    const timeLeft = +tokenExpiration - new Date().getTime()
+    
+    // check how much time is left to the timeOut and logout.
+
+    if(timeLeft < 0){
+      return
+    }
 
     if (token && userId) {
       context.commit("setUser", {
@@ -78,8 +105,18 @@ export default {
         userEmail: userEmail,
       });
     }
+
+    timer = setTimeout(function(){
+      context.dispatch('didAutoLogout')
+
+      context.dispatch('form/setFormVisibility', false, {root:true})
+    }, timeLeft)
   },
+  // set token, userId and tokenExpiration to null(default)
   logout(context) {
+
+    clearTimeout(timer)
+
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     localStorage.removeItem("tokenExpiration");
@@ -87,7 +124,10 @@ export default {
       token: null,
       userId: null,
       userEmail: null,
-      expiration: null,
     });
   },
+  didAutoLogout(context){
+    context.dispatch('logout')
+    context.commit('setAutoLogout')
+  }
 };

@@ -70,11 +70,9 @@
 </template>
 
 <script>
-import BaseDialog from "../ui/BaseDialog.vue";
+
 export default {
-  components: {
-    BaseDialog,
-  },
+  
   emits: ["user-logout"],
   props: ["userLogout"],
   data() {
@@ -216,6 +214,9 @@ export default {
     token() {
       return this.$store.getters.token;
     },
+    didAutoLogout(){
+      return this.$store.getters.didAutoLogout;
+    }
     // haveError() {
     //   return this.$store.getters.error;
     // },
@@ -237,9 +238,9 @@ export default {
         }
       }
     },
-    error(newVal) {
-      console.log(newVal);
-    },
+    // error(newVal) {
+    //   console.log(newVal);
+    // },
     // it sets the login and signup when the user clicks on the logout button
     userLogout(newVal) {
       if (newVal) {
@@ -249,6 +250,13 @@ export default {
         console.log(`signup: ${this.signUp}`);
       }
     },
+    didAutoLogout(newVal){
+      if(newVal){
+        this.login = true;
+        this.signUp = false;
+      }
+    }
+    
   },
 };
 </script>
@@ -325,7 +333,11 @@ p.invalid {
  form {
     width: 270px;
   }
-
+@media (max-width: 450px){
+  form {
+    width:250px
+  }
+}
 }
 }
 </style>

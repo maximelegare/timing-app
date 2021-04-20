@@ -56,8 +56,6 @@ button {
   padding: 7px 11px;
   font-size: 1.3rem;
   background-color: #e2e1dc;
-  margin-left: 250px;
-  margin-top: -11px;
   position: absolute;
   border-radius: 50%;
   color: white;

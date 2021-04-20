@@ -1,7 +1,8 @@
 export default {
   async addTimer(context, payload) {
     const userId = context.rootGetters.userId;
-    const token = context.rootGetters.token
+    const token = context.rootGetters.token;
+    // timer Data to send to fireBase
     const timer = {
       title: payload.title,
       time: {
@@ -10,12 +11,13 @@ export default {
         seconds: payload.time.seconds,
         startingTime: "",
         timerStatus: false,
-        timerExpired:false
+        timerExpired: false,
       },
     };
-    
+  // post a timer item to firebase with identification token
     const response = await fetch(
-      `https://timing-app-7c35b-default-rtdb.firebaseio.com/users/${userId}/timers.json?auth=` +token,
+      `https://timing-app-7c35b-default-rtdb.firebaseio.com/users/${userId}/timers.json?auth=` +
+        token,
       {
         method: "POST",
         body: JSON.stringify(timer),
@@ -31,12 +33,14 @@ export default {
     context.commit("addTimer", payload);
   },
 
+  // load timers when I go on the timers route
   async loadTimers(context) {
     const userId = context.rootGetters.userId;
-    const token = context.rootGetters.token
+    const token = context.rootGetters.token;
 
     const response = await fetch(
-      `https://timing-app-7c35b-default-rtdb.firebaseio.com/users/${userId}/timers.json?auth=` + token
+      `https://timing-app-7c35b-default-rtdb.firebaseio.com/users/${userId}/timers.json?auth=` +
+        token
     );
     const responseData = await response.json();
 
@@ -57,13 +61,13 @@ export default {
           seconds: responseData[key].time.seconds,
           startingTime: responseData[key].time.startingTime,
           timerStatus: responseData[key].time.timerStatus,
-          timerExpired:responseData[key].time.timerExpired
+          timerExpired: responseData[key].time.timerExpired,
         },
       };
 
       timers.push(timer);
     }
-    
+
     // if(timerStatus === true){
     //   context.dispatch('countdown')
     // }
@@ -74,14 +78,14 @@ export default {
   async deleteTimer(context, payload) {
     const userId = context.rootGetters.userId;
     const timerId = payload;
-    
+
     const response = await fetch(
       `https://timing-app-7c35b-default-rtdb.firebaseio.com/users/${userId}/timers/${timerId}.json`,
       {
         method: "DELETE",
       }
     );
-    
+
     const responseData = await response.json();
 
     if (!response.ok) {
@@ -101,11 +105,9 @@ export default {
       seconds: payload.seconds,
       startingTime: payload.startingTime,
       timerStatus: payload.timerStatus,
-      timerExpired: payload.timerExpired
-    } 
+      timerExpired: payload.timerExpired,
+    };
 
-
-    
     const response = await fetch(
       `https://timing-app-7c35b-default-rtdb.firebaseio.com//users${userId}/timers/${timerId}/time.json`,
       {
@@ -122,25 +124,20 @@ export default {
     context.dispatch("countdown", payload);
   },
   countdown(context, payload) {
-    
     let hours = payload.hours;
     let minutes = payload.minutes;
     let seconds = payload.seconds;
     let startingTime = payload.startingTime;
-    let timerStatus= payload.timerStatus;
-    let timerExpired = payload.timerExpired
+    let timerStatus = payload.timerStatus;
+    let timerExpired = payload.timerExpired;
     let now = startingTime;
     let deadline = timer(now, hours, minutes, seconds);
-
-    
 
     function timer(date, hours, minutes, seconds) {
       return new Date(
         date + hours * 60 * 60 * 1000 + minutes * 60 * 1000 + seconds * 1000
       );
     }
-    
-    
 
     var x = setInterval(function() {
       // Get todays date and time
@@ -164,7 +161,7 @@ export default {
         seconds,
         timerStatus,
         startingTime,
-        timerExpired 
+        timerExpired,
       };
 
       context.commit("countdownValues", countdownValues);
@@ -175,16 +172,16 @@ export default {
 
       if (distance < 0) {
         clearInterval(x);
-        const expiredCountdown ={
-          hours:0,
-          minutes:0,
-          seconds:0,
-          timerStatus:true,
+        const expiredCountdown = {
+          hours: 0,
+          minutes: 0,
+          seconds: 0,
+          timerStatus: true,
           startingTime,
-          timerExpired:true
-        }
-        context.commit('countdownValues', expiredCountdown)
-        console.log('done')
+          timerExpired: true,
+        };
+        context.commit("countdownValues", expiredCountdown);
+        console.log("done");
         // timerItem.style.borderLeft = "solid 20px #bd0a0a";
 
         // itemTime.innerText = "EXPIRED";

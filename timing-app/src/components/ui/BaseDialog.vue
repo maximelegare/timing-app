@@ -121,4 +121,14 @@ section {
   }
 
 }
+@media (max-width: 450px) {
+  dialog {
+    width: 18rem;
+    top: 45vh;
+  }
+
+}
+
+
+
 </style>

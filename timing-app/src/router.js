@@ -1,8 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'  
 
-import NotesRoute from './router/NotesRoute.vue'
-import TimerRoute from './router/TimerRoute.vue'
 
+// import NotesRoute from './router/NotesRoute.vue'
+// import TimerRoute from './router/TimerRoute.vue'
+
+
+const NotesRoute = () => import('./router/NotesRoute.vue')
+const TimerRoute = () => import('./router/TimerRoute.vue')
 
 const router = createRouter({
     history: createWebHistory(),

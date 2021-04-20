@@ -1,27 +1,29 @@
 <template>
-  <div>
+  <div class="route">
     <transition @enter="enter" appear>
       <item-header-line route="note-route"></item-header-line>
     </transition>
     <base-spinner v-if="isLoading"></base-spinner>
     <div v-if="!isLoading && isAuth" class="items-section">
-      <p v-if="!hasNotes">No note were found. Start adding some now!</p>
+      <p v-if="!hasNotes" class="noItem">No note were found. Start adding some now!</p>
       <!-- <transition-group tag="div" name="list"> -->
-        <note-item
-          @loadNotes="loadNotes"
-          v-for="item in notes"
-          :key="item.id"
-          :id="item.id"
-          :title="item.title"
-          :content="item.content"
-        ></note-item>
+
+      <note-item
+        @loadNotes="loadNotes"
+        v-for="item in notes"
+        :key="item.id"
+        :id="item.id"
+        :title="item.title"
+        :content="item.content"
+      ></note-item>
+
       <!-- </transition-group> -->
     </div>
   </div>
 </template>
 
 <script>
-import BaseSpinner from "../components/ui/BaseSpinner.vue";
+
 import gsap from "gsap";
 import NoteItem from "../components/items/NoteItem.vue";
 import ItemHeaderLine from "../components/layout/ItemHeaderLine";
@@ -29,7 +31,6 @@ export default {
   components: {
     NoteItem,
     ItemHeaderLine,
-    BaseSpinner,
   },
   data() {
     return {
@@ -85,29 +86,9 @@ export default {
   justify-content: space-evenly;
   margin-bottom: 60px;
 }
-
-.list-enter-from{
-opacity: 0;
-transform: translateY(-10px);
+.noItem{
+  text-align: center;
+  margin: 0 20px;
 }
-.list-enter-active{
-  
-  transition: all 0.2ms ease-out;
-}
-.list-enter-to{
-  opacity: 1;
-  transform: translateY(0);
-}
-
-
-
-
-.note-list-leav-to{
-
-}
-
-
-
-
 
 </style>

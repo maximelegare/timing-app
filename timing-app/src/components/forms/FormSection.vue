@@ -1,5 +1,5 @@
 <template>
-  <transition name="form">
+  <transition name="form" appear>
     <div v-if="showForm">
       <div class="create-container">
         <base-button mode="close-form" @click="setForm" class="base-button"
@@ -8,10 +8,10 @@
         <note-form class="element n"></note-form>
         <timer-form class="element"></timer-form>
       </div>
+      <div class="background" @click="setForm"></div>
     </div>
   </transition>
   <!-- <div class="backdrop" v-if="showForm"></div> -->
-  <div class="background" @click="setForm" v-if="showForm"></div>
 </template>
 
 <script>
@@ -65,26 +65,16 @@ export default {
   /* margin-top: 70px; */
 }
 
-.form-enter-from {
-  opacity: 0;
-  transform: translateX(-200px);
-}
+.form-enter-from,
 .form-leave-to {
   opacity: 0;
   transform: translateX(-200px);
 }
-
 .form-enter-active {
   transition: all 0.3s ease-out;
 }
 .form-leave-active {
   transition: all 0.3s ease-in;
-}
-
-.form-enter-to,
-.form-leave-from {
-  opacity: 1;
-  transform: translateX(0);
 }
 
 @media (max-width: 1120px) {
@@ -100,13 +90,13 @@ export default {
     height: 100vh;
     padding: 0;
     box-shadow: 0px 3px 3px rgba(145, 145, 145, 0.404);
-    z-index: 200;
+    z-index: 300;
     position: fixed;
     margin-left: -50px;
-    /* top: 0; */
     margin-top: -40px;
     border-radius: 0 15px 15px 0;
 
+    /* top: 0; */
     /* margin-top: 90px; */
     /* background-color: rgba(240, 239, 232); */
     /* compensation for TheHeader beeing a fixed element */
@@ -114,15 +104,21 @@ export default {
   .background {
     display: block;
     position: fixed;
-    top: 75px;
+    top: 0;
     left: 0;
     height: 100vh;
     width: 100%;
-    /* background-color: rgba(56, 75, 72, 0.247); */
-    z-index: 3;
+    background-color: transparent;
+    z-index: 100;
   }
-  .base-button{
+  .base-button {
     margin-left: 315px;
   }
+}
+
+@media (max-width:400px){
+  .base-button {
+  margin-left: 300px;
+}
 }
 </style>

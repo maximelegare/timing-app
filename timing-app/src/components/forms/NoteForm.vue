@@ -3,7 +3,11 @@
     <h2>Note item</h2>
     <div class="form-container">
       <form @submit.prevent="sendNote">
-        <base-button mode="add-item" icon="fas fa-plus" class="base-button"></base-button>
+        <base-button
+          mode="add-item"
+          icon="fas fa-plus"
+          class="base-button"
+        ></base-button>
 
         <input
           :class="{ invalid: !titleIsValid }"
@@ -11,7 +15,6 @@
           placeholder="Title"
           v-model.trim="title"
           @blur="clearValidity('titleIsValid')"
-          
         />
         <p class="invalid" v-if="!titleIsValid">You must enter a Title</p>
         <textarea
@@ -22,14 +25,15 @@
           placeholder="Content"
           rows="3"
         ></textarea>
-        <p class="invalid" v-if="!contentIsValid">You must enter some content</p>
+        <p class="invalid" v-if="!contentIsValid">
+          You must enter some content
+        </p>
       </form>
     </div>
   </div>
 </template>
 
 <script>
-
 export default {
   data() {
     return {
@@ -54,6 +58,11 @@ export default {
       if (!this.formIsValid) {
         console.log("cannot submit");
         return;
+      }
+
+      const screenMedia = window.matchMedia("(max-width: 900px)");
+      if (screenMedia.matches) {
+        this.$store.dispatch("form/setFormVisibility", false);
       }
 
       this.$store.dispatch("notes/addNote", {
@@ -87,7 +96,7 @@ export default {
 </script>
 
 <style scoped>
-.base-button{
+.base-button {
   margin-left: 373px;
   margin-top: 35px;
 }
@@ -101,9 +110,8 @@ export default {
   margin-top: 30px;
 } */
 
-
-h2{
-margin-bottom: 20px;
+h2 {
+  margin-bottom: 20px;
 }
 
 form {
@@ -129,25 +137,27 @@ input.invalid,
 textarea.invalid {
   border: 2px solid #bd0a0a;
 }
-p.invalid{
-  color:#bd0a0a;
+p.invalid {
+  color: #bd0a0a;
   margin-bottom: 20px;
   margin-top: -5px;
   text-align: center;
 }
 
 @media (max-width: 1120px) {
-  form{
-    width:300px
+  form {
+    width: 300px;
   }
-  .base-button{
+  .base-button {
     margin-left: 273px;
   }
 }
-
-
-
-
-
-
+@media (max-width: 400px) {
+  form {
+    width: 250px;
+  }
+  .base-button {
+    margin-left: 223px;
+  }
+}
 </style>

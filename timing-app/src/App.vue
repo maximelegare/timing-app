@@ -1,8 +1,6 @@
 <template>
   <div>
     <the-header></the-header>
-
- 
     <div class="body-container">
       <form-section class="form-section"></form-section>
       <div class="notes-container">
@@ -16,6 +14,7 @@
         </div>
       </div>
     </div>
+    <the-footer></the-footer>
   </div>
 </template>
 
@@ -23,12 +22,14 @@
 import ItemsHeader from "./components/layout/ItemsHeader";
 import FormSection from "./components/forms/FormSection.vue";
 import TheHeader from "./components/layout/TheHeader.vue";
+import TheFooter from "./components/layout/TheFooter.vue";
 
 export default {
   components: {
     TheHeader,
     FormSection,
     ItemsHeader,
+    TheFooter,
   },
   mounted() {
     this.$store.dispatch("tryLogin");
@@ -59,7 +60,7 @@ body {
   width: 90%;
 
   /* compensation for the header beeing fixed */
-  margin: 125px auto 50px auto;
+  margin: 125px auto 80px auto;
   justify-content: space-between;
 }
 
@@ -73,11 +74,11 @@ body {
   transition: 0.2ms all;
 }
 
-.form-section-over{
+.form-section-over {
   display: none;
 }
 
-.form-section{
+.form-section {
   display: block;
 }
 
@@ -125,10 +126,11 @@ p {
   color: rgb(160, 160, 147);
 }
 
-li{
+li {
   font-family: "Open Sans", sans-serif;
   font-size: 1rem;
   color: rgb(160, 160, 147);
+  list-style: none;
 }
 label {
   font-family: "Comfortaa", cursive;
@@ -176,17 +178,6 @@ button {
 } */
 
 @media (max-width: 900px) {
-  .body-container {
-    /* display: block; */
-    
-    /* width: 90%; */
-    /* display: flex; */
-    /* flex-direction: column-reverse; */
-  }
-  /* .form-section{
-    display: none;
-  } */
-  
 }
 
 @media (max-width: 800px) {
@@ -197,6 +188,9 @@ button {
   }
   .curseur {
     cursor: none;
+  }
+  .body-container {
+    margin-bottom: 40px;
   }
 }
 </style>

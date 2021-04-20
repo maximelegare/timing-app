@@ -1,10 +1,10 @@
 <template>
-  <div
+  <li
     class="timer-items"
     :class="{ timerStarted: timerStatus, timerExpired: timerExpired }"
   >
     <div id="timerItemContent" class="timer-items-content">
-      <h3 class="title">{{ itemTitle }}</h3>
+      <h4 class="title">{{ itemTitle }}</h4>
       <!-- <base-spinner v-if="countdownValues"></base-spinner> -->
       <h3 class="time" v-if="!isLoading && !timerStatus && !expirationStatus">
         {{ timeShown }}
@@ -36,7 +36,7 @@
         mode="start-timer"
       ></base-button>
     </form>
-  </div>
+  </li>
 </template>
 
 <script>
@@ -232,6 +232,7 @@ export default {
 <style scoped>
 .start-timer-button {
   margin-left: 250px;
+  
 }
 
 .delete-timer-button {
@@ -266,7 +267,7 @@ export default {
   justify-content: space-between;
 }
 
-h3.title {
+h3.title, h4.title {
   margin-left: 10px;
   text-align: left;
   width: 150px;
@@ -298,12 +299,14 @@ h3.time {
 
   .start-timer-button {
     margin-left: 150px;
+    margin-top: -5px;
   }
 
   .delete-timer-button {
     margin-left: 260px;
+    
   }
-  h3.title {
+  h4.title {
     text-align: center;
     width: 250px;
     height: 55px;
@@ -322,7 +325,7 @@ h3.time {
     width: 230px;
     height: 120px; 
   }
-  h3.title {
+  h4.title {
    
     width: 200px;
     height: 55px;

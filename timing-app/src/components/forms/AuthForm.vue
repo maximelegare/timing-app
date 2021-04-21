@@ -70,9 +70,7 @@
 </template>
 
 <script>
-
 export default {
-  
   emits: ["user-logout"],
   props: ["userLogout"],
   data() {
@@ -108,7 +106,7 @@ export default {
     clearValidity(input) {
       this[input] = true;
       this.formIsValid = true;
-      this.error = null
+      this.error = null;
     },
 
     async sendAuthData() {
@@ -136,23 +134,21 @@ export default {
           this.email = "";
         } catch (error) {
           this.formIsValid = false;
-          console.log(error)
+          console.log(error);
           if (error.message === "EMAIL_EXISTS") {
             this.error =
               "There is already an account using this email Address.";
-              this.emailIsValid = false
-              console.log(error.message)
-
-          }else if (error.message === "INVALID_PASSWORD") {
+            this.emailIsValid = false;
+            console.log(error.message);
+          } else if (error.message === "INVALID_PASSWORD") {
             this.error = "The password is invalid";
-            this.passwordIsValid = false
-            
+            this.passwordIsValid = false;
           } else {
             this.error = "Something went wrong!";
           }
         }
         this.$router.replace("notes");
-        
+
         this.password = "";
         this.passwordValidation = "";
         this.showDialog = false;
@@ -214,9 +210,9 @@ export default {
     token() {
       return this.$store.getters.token;
     },
-    didAutoLogout(){
+    didAutoLogout() {
       return this.$store.getters.didAutoLogout;
-    }
+    },
     // haveError() {
     //   return this.$store.getters.error;
     // },
@@ -250,13 +246,12 @@ export default {
         console.log(`signup: ${this.signUp}`);
       }
     },
-    didAutoLogout(newVal){
-      if(newVal){
+    didAutoLogout(newVal) {
+      if (newVal) {
         this.login = true;
         this.signUp = false;
       }
-    }
-    
+    },
   },
 };
 </script>
@@ -324,20 +319,35 @@ p.invalid {
   margin-top: 15px;
 }
 
-
-@media (max-width:700px){
+@media (max-width: 700px) {
   form {
-  width: 300px;
+    width: 300px;
+  }
 }
 @media (max-width: 600px) {
- form {
+  form {
     width: 270px;
   }
-@media (max-width: 450px){
-  form {
-    width:250px
+  h4 {
+    margin-bottom: 5px;
   }
+  .form-control-buttons {
+    display: flex;
+  }
+  .login-button {
+    margin-left: 0;
+    transform: translate(0, 0);
+    margin: 0 5px;
+  }
+  .form-control {
+ 
+  margin: 15px 0 15px 0;
+  
 }
 }
+@media (max-width: 450px) {
+  form {
+    width: 250px;
+  }
 }
 </style>

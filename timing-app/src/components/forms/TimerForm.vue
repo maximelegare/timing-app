@@ -9,39 +9,43 @@
           class="base-button"
         ></base-button>
         <input
-          @blur="clearForm('titleIsValid')"
+          @blur="clearForm('titleIsValid'), $emit('timer-clear-focus', 'timerTitle')"
           :class="{ invalid: !titleIsValid }"
           type="text"
           placeholder="Title"
           v-model.trim="title"
           class="element-with-marge"
+          @focus="$emit('timer-input-focus', 'timerTitle')"
         />
         <p v-if="!titleIsValid" class="invalid">You must enter a title</p>
 
         <div class="form-time">
           <input
-            @blur="clearForm('timeIsValid')"
+            @blur="clearForm('timeIsValid'), $emit('timer-clear-focus')"
             :class="{ invalid: !timeIsValid }"
             type="text"
             placeholder="Hours"
             class="time-input"
             v-model.number="time.hours"
+            @focus="$emit('timer-input-focus', 'timerTime')"
           />
           <input
-            @blur="clearForm('timeIsValid')"
+            @blur="clearForm('timeIsValid'), $emit('timer-clear-focus')"
             :class="{ invalid: !timeIsValid }"
             type="text"
             placeholder="Minutes"
             class="time-input"
             v-model.number="time.minutes"
+            @focus="$emit('timer-input-focus', 'timerTime')"
           />
           <input
-            @blur="clearForm('timeIsValid')"
+            @blur="clearForm('timeIsValid'), $emit('timer-clear-focus')"
             :class="{ invalid: !timeIsValid }"
             type="text"
             placeholder="Seconds"
             class="time-input"
             v-model.number="time.seconds"
+            @focus="$emit('timer-input-focus', 'timerTime')"
           />
         </div>
         <p v-if="!timeIsValid" class="invalid">
@@ -250,6 +254,13 @@ p.invalid {
     margin-left: 273px;
   }
 }
+
+@media(max-width:600px){
+  h2 {
+  margin-bottom: 10px;
+}
+}
+
 @media (max-width: 400px) {
   form {
     width: 250px;

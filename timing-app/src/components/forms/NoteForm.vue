@@ -14,12 +14,14 @@
           type="text"
           placeholder="Title"
           v-model.trim="title"
-          @blur="clearValidity('titleIsValid')"
+          @blur="clearValidity('titleIsValid'), $emit('note-clear-focus')"
+          @focus="$emit('note-input-focus', 'noteTitle')"
         />
         <p class="invalid" v-if="!titleIsValid">You must enter a Title</p>
         <textarea
           :class="{ invalid: !contentIsValid }"
-          @blur="clearValidity('contentIsValid')"
+          @blur="clearValidity('contentIsValid'), $emit('note-clear-focus')"
+          @focus="$emit('note-input-focus', 'noteContent')"
           v-model.trim="content"
           type="text"
           placeholder="Content"
@@ -91,6 +93,7 @@ export default {
       this[input] = true;
       this.formIsValid = true;
     },
+    
   },
 };
 </script>
@@ -152,6 +155,13 @@ p.invalid {
     margin-left: 273px;
   }
 }
+
+@media(max-width:600px){
+  h2 {
+  margin-bottom: 10px;
+}
+}
+
 @media (max-width: 400px) {
   form {
     width: 250px;

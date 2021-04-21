@@ -34,6 +34,20 @@ export default {
   mounted() {
     this.$store.dispatch("tryLogin");
   },
+  computed: {
+    showForm() {
+      return this.$store.getters["form/showForm"];
+    },
+  },
+  watch: {
+    showForm() {
+      if (this.showForm) {
+        document.documentElement.style.overflow = "hidden";
+        return;
+      }
+      document.documentElement.style.overflow = "auto";
+    },
+  },
 };
 </script>
 

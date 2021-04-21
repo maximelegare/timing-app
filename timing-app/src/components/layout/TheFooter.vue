@@ -22,7 +22,7 @@ export default {
   display: flex;
   justify-content: center;
   max-height: 100px;
-  margin: 0 40px;
+  /* margin: 0 40px; */
   margin-bottom: 30px;
 
 }
@@ -31,6 +31,7 @@ h3 {
   font-size: 1.2rem;
   margin-bottom: 10px;
   line-height: 1.2;
+  width: 200px;
 }
 h4{
     font-size: 0.8rem;
@@ -38,4 +39,5 @@ h4{
 .text{
     text-align: center;
 }
+
 </style>

@@ -5,8 +5,8 @@
         <base-button mode="close-form" @click="setForm" class="base-button"
           ><i class="fas fa-times"></i
         ></base-button>
-        <note-form class="element n"></note-form>
-        <timer-form class="element"></timer-form>
+        <note-form class="element n" @note-input-focus="inputFocus" @note-clear-focus="clearFocus"></note-form>
+        <timer-form class="element" @timer-input-focus="inputFocus" @timer-clear-focus="clearFocus"></timer-form>
       </div>
       <div class="background" @click="setForm"></div>
     </div>
@@ -24,12 +24,39 @@ export default {
     setForm() {
       this.$store.dispatch("form/setFormVisibility", false);
     },
+    // inputFocus(input) {
+    //   console.log(input);
+    //   let mediaScreen = window.matchMedia("(max-width: 900px)");
+    //   if(mediaScreen.matches){
+    //     if (input === "noteTitle") {
+    //         document.querySelector(".create-container").style.top = "0px";
+    //     }
+    //     if(input === 'noteContent'){
+    //       document.querySelector(".create-container").style.top = "0px";
+    //     }
+    //     if(input === 'timerTitle'){
+    //       document.querySelector(".create-container").style.top = "-225px";
+    //     }
+    //     if(input === 'timerTime'){
+    //       document.querySelector(".create-container").style.top = "-225px";
+    //     }
+    //   }
+    // },
+    // clearFocus(){
+    //  document.querySelector(".create-container").style.top = 'initial';
+    // }
+
   },
   computed: {
     showForm() {
       return this.$store.getters["form/showForm"];
     },
   },
+  // watch:{
+  //   showForm(newVal){
+  //     console.log(newVal)
+  //   }
+  // }
 };
 </script>
 
@@ -38,6 +65,7 @@ export default {
   position: absolute;
   margin-left: 360px;
   align-items: center;
+  
 }
 .create-container {
   margin-right: 70px;
@@ -87,7 +115,7 @@ export default {
   .create-container {
     /* margin-right: 0; */
     width: 400px;
-    height: 100vh;
+    height: 200vh;
     padding: 0;
     box-shadow: 0px 3px 3px rgba(145, 145, 145, 0.404);
     z-index: 300;
@@ -116,9 +144,15 @@ export default {
   }
 }
 
-@media (max-width:400px){
-  .base-button {
-  margin-left: 300px;
+@media (max-width:600px){
+  .element {
+  margin: 15px 0;
 }
+}
+
+@media (max-width: 400px) {
+  .base-button {
+    margin-left: 300px;
+  }
 }
 </style>

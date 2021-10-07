@@ -41,7 +41,8 @@ export default {
   },
   watch: {
     showForm() {
-      if (this.showForm) {
+      const mediaScreen = window.matchMedia("(max-width: 900px)")
+      if (mediaScreen.matches && this.showForm) {
         document.documentElement.style.overflow = "hidden";
         return;
       }
